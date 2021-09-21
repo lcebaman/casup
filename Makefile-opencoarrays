@@ -1,0 +1,81 @@
+#*robodoc*b* CGPACK/Makefile-bc3-oca
+#  NAME
+#    Makefile-bc3-oca
+#  SYNOPSIS
+
+#$Id: Makefile-opencoarrays 446 2018-01-12 16:37:09Z mexas $
+
+FC=		caf
+
+#  PURPOSE
+#    Build/install CGPACK with GCC/OpenCoarrays
+#  AUTHOR
+#    Anton Shterenlikht
+#  COPYRIGHT
+#    See LICENSE
+#  NOTES
+#    CGPACK uses parallel HDF5, NetCDF and NetCDF-Fortran libraries.
+#    Make sure these are installed. Either the include path must
+#    point to the location of their *mod files, or copy the *mod
+#    files into another convenient location.
+#    I do the latter.
+#    Some parts of CGPACK, in particular coarrays of derived type
+#    with pointer or allocatable components, require gcc7+.
+#    So need to build lang/opencoarrays with gcc7+.
+#    lang/opencoarrays can use either of 3 MPI ports:
+#      net/mpich net/openmpi net/openmpi2
+#    net/mpich is the default. The 2 openmpi ports have not been
+#    integrated fully with opencoarrays yet.
+#    Also need to rebuild a number of other ports:
+#      science/hdf5 science/netcdf science/netcdf-fortran
+#  SOURCE
+
+FFLAGS=		-c -O2 -Wall -fPIC -g -fbacktrace -fall-intrinsics \
+		-fcheck-array-temporaries \
+		-I$(HOME)/mod
+
+CGPACK=		cgpack
+MYLIB=		lib$(CGPACK).a
+LIBDIR=		$(HOME)/lib
+MODDIR=		$(HOME)/mod
+
+SRC=		cgca_m1clock.f90 cgca_m1co.f90 cgca_m2alloc.f90 cgca_m2gb.f90 \
+		cgca_m2geom.f90 cgca_m2glm.f90 cgca_m2hdf5.f90 cgca_m2hx.f90 \
+		cgca_m2lnklst.f90 cgca_m2mpiio.f90 cgca_m2netcdf.f90 cgca_m2out.f90 \
+		cgca_m2pck.f90 cgca_m2phys.f90 cgca_m2red.f90 cgca_m2rnd.f90 \
+		cgca_m2rot.f90 cgca_m2stat.f90 cgca_m3clvg.f90 cgca_m3gbf.f90 \
+		cgca_m3nucl.f90 cgca_m3pfem.f90 cgca_m3sld.f90 cgca_m4fr.f90 \
+		m2out_sm2_mpi.f90 m3clvg_sm1.f90 m3clvg_sm2.f90 m3clvg_sm3.f90 \
+		m3sld_sm1.f90 \
+		cgca.f90
+		# cgca_m3clvgt.f90 # - broken, does not build
+		# m2out_sm1.f90 # - Cray only
+		# m3clvgt_sm1.f90 # - broken, does not build
+		# m3pfem_sm1.f90 # - GCC7 ICE
+OBJ=		$(SRC:.f90=.o)
+MOD=		cgca*.mod
+SMOD=		cgca*.smod
+
+.SUFFIXES:
+.SUFFIXES:	.f90 .o
+
+all:		$(OBJ) $(MYLIB)
+
+.f90.o:
+		$(FC) $(FFLAGS) $<
+
+$(MYLIB):	$(OBJ)
+		ar -r $(MYLIB) $(OBJ)
+
+install:	$(MYLIB)
+		cp $(MYLIB) $(LIBDIR)
+		cp cgca.mod $(MODDIR)
+
+deinstall:
+		cd $(LIBDIR) && rm $(MYLIB)
+		cd $(MODDIR) && rm cgca.mod
+
+clean:
+		rm -f $(MOD) $(SMOD) $(OBJ) $(MYLIB)
+
+#*roboend*

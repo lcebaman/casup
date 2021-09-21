@@ -1,0 +1,13 @@
+#$Id: lnklst7.gv 166 2015-11-03 14:47:48Z mexas $
+
+digraph "" {
+label = "lnklst7.gv";
+fontsize = 8;
+bgcolor="transparent";
+
+node [ shape = Mrecord, fontsize=8 ];
+node2 [ label = "<f1> value=zz | <f2> next" ];
+ellip [ shape="plaintext", label="..." ];
+
+node2:f2 -> ellip;
+}

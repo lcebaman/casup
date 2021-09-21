@@ -1,0 +1,58 @@
+.\"$Id: cgca_addmiddle.1 201 2016-01-29 11:05:47Z mexas $
+.NH 4
+.XN -N AAAT -- Subroutine \fCcgca_addmiddle\fP
+.PP
+This routine adds a new node
+.I below
+the given node.
+The list becomes longer by one node.
+.DS L
+.CW
+subroutine cgca_addmiddle( node, payload )
+type( cgca_lnklst_node ), pointer, intent( in ) :: node
+type( cgca_lnklst_tpayld ), intent( in ) :: payload
+.DE
+The pointer to an arbitrary
+.CW node
+is given as input.
+Note that this does not need to be the head node.
+Memory is allocated for one node and its
+.CW value
+set to
+.CW payload .
+.CW node%next
+points to the new node.
+The new node's
+.CW %next
+points to where the
+.CW node%next
+was pointing before calling this routine.
+.DS L
+.CW
+type( cgca_lnklst_node ), pointer :: tmp
+allocate( tmp )
+tmp%value = payload
+ tmp%next => node%next
+node%next => tmp
+.DE
+.PP
+If the routine was called with
+.CW node
+pointer set to pointing on the node
+with
+.CW value=xx ,
+and with
+.CW payload=aa ,
+then the diagrams below schematically illustrate
+the lists before calling this routine (left) and after (right).
+.PP
+.mk
+.PS 1.3i
+.in 1.0i
+copy "lnklst5.pic"
+.PE
+.rt
+.PS 1.8i
+.in 2.5i
+copy "lnklst6.pic"
+.PE

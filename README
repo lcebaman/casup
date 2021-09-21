@@ -1,0 +1,10 @@
+$Id: README 512 2018-03-09 11:55:04Z mexas $
+!  AUTHOR
+!    Anton Shterenlikht
+!  COPYRIGHT
+!    See LICENSE
+!  DESCRIPTION
+
+This is a top CASUP directory.
+The library is built from here.
+There are number of Makefiles for popular platforms. 

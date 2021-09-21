@@ -1,0 +1,28 @@
+.\"$Id: cgca_payload.1 201 2016-01-29 11:05:47Z mexas $
+.NH 4
+.XN -N AAAS -- Derived type \fCcgca_lnklst_tpayload\fP
+.PP
+This is the type for payload, i.e. the data
+contained in each node of the list.
+.DS L
+.CW
+type cgca_lnklst_tpayld
+  integer :: lwr(3), upr(3)
+end type cgca_lnklst_tpayld
+.DE
+The intention is that the data consists of
+the coordinates of the two corners of a CA box,
+the lower and the upper.
+The lower corner is that which has the lowest
+coordinates along all 3 directions.
+The upper corner is that which has the upper
+coordinates along all 3 directions.
+For example
+.DS L
+.CW
+lwr = (/  1 , 200 ,    3 /)
+upr = (/ 10 , 202 , 3000 /)
+.DE
+would denote a box extending from 1 to 10
+along direction 1, from 200 to 202 along direction 2,
+and from 3 to 3000 along direction 3.

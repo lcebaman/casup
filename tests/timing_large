@@ -1,0 +1,49 @@
+# scaling data for xx14noio.f90 with p121_large
+# and 8.04E+08 cells
+#cores	wall	wall	wall
+#	time1	time2	time3
+192	27:57	27:24	31:57
+1536	05:29	05:22	06:00
+2016	05:08	04:39	04:49
+3072	04:47	04:33	04:42
+7200	05:01	04:57	04:41
+15000	07:26	07:12	07:07
+30000	14:09	12:05	14:09
+
+# scaling data for xx14.f90 (full IO, with debug) with p121_large
+#Total cells in the model  8.06E+08 or 8.04E+08
+#cores	wall	wall	wall
+#	time1	time2	time3
+192	17:25	21:06	26:53
+1536	05:12	06:17	06:52
+3072	04:52	05:21	07:48
+7200	06:59	08:20	16:20
+15000	11:20	13:38
+
+# scaling data for xx14noio.f90 with p121_large
+# Total cells in the model  8.13E+08
+# cores	wall	wall	wall
+#	time1	time2	time3
+192	26:19
+3000	04:28	04:07
+10008	06:59	07:14
+30000	18:33
+
+# 23-JUN-2015
+# scaling data for xx14noio.f90 with p121_large
+# Total cells in the model  8.13E+08
+# cores	wall	wall	wall
+#	time1	time2	time3
+192	26:46	26:09	24:44	# 8.04E+08 cells
+3000	04:00	03:50	03:54	# 8.13E+08 cells
+10008	05:49	05:43	05:42	# 8.37E+08 cells
+30000	# no point
+# Conclusion - do profiling
+
+# 16-SEP-2015
+# scaling data for xx14noio.f90 with p121_large
+# Total cells in the model  8.13E+08
+# cores	wall	wall	wall
+#	time1	time2	time3
+12000	06:05
+

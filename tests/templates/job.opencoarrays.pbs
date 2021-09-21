@@ -1,0 +1,14 @@
+#!/bin/sh
+#$Id: job.opencoarrays.pbs 405 2017-05-15 15:30:52Z mexas $
+
+# Run as e.g.
+# qsub -q testq     -joe -l walltime=00:10:00,nodes=2:ppn=16 <jobname>
+# qsub -q veryshort -joe -l walltime=10:00:00,nodes=6:ppn=16 <jobname>
+
+# Switch to current working directory
+cd $PBS_O_WORKDIR
+
+cafrun -np 40 mpi_check_opencoarrays.x
+cafrun -np 32 testAAA.x 4 4
+cafrun -np 32 testAAB.x 4 4
+

@@ -1,0 +1,49 @@
+<?xml version="1.0" ?>
+
+<!--
+$Id: template.xdmf 175 2015-12-15 12:31:30Z mexas $
+See http://xdmf.org for details.
+Dimensions are specified with the slowest varying dimension first (i.e. KJI order).
+-->
+
+<!DOCTYPE Xdmf SYSTEM "Xdmf.dtd" [
+<!ENTITY model "1392 930 930">
+]>
+<Xdmf xmlns:xi="http://www.w3.org/2001/XInclude" Version="2.0">
+
+<Domain>
+    <Topology name="topo" TopologyType="3DCoRectMesh"
+	Dimensions = "&model;" >
+    </Topology>
+    <Geometry name="geo" Type="ORIGIN_DXDYDZ">
+        <!-- Origin -->
+        <DataItem Format="XML" Dimensions="3">
+        0.0 0.0 0.0
+        </DataItem>
+        <!-- DxDyDz -->
+        <DataItem Format="XML" Dimensions="3">
+        1.0 1.0 1.0
+        </DataItem>
+    </Geometry>
+ 
+    <Grid Name="TimeSeries" GridType="Collection" CollectionType="Temporal">
+        <Time TimeType="HyperSlab">
+            <DataItem Format="XML" NumberType="Float" Dimensions="3">
+              2.0 2.0 3.0
+            </DataItem>
+        </Time>
+ 
+        <Grid Name="model" GridType="Uniform">
+            <Topology Reference="/Xdmf/Domain/Topology[1]"/>
+            <Geometry Reference="/Xdmf/Domain/Geometry[1]"/>
+            <Attribute Name="img" Center="Node">
+                <DataItem Format="Binary" DataType="Int" Precision="4"
+                          Endian="Native" Dimensions="&model;">
+                   hdf5.dat
+                </DataItem>
+            </Attribute>
+        </Grid>
+ 
+    </Grid>
+</Domain>
+</Xdmf>

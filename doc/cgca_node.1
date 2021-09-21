@@ -1,0 +1,25 @@
+.\"$Id: cgca_node.1 201 2016-01-29 11:05:47Z mexas $
+.NH 4
+.XN -N AAAR -- Derived type \fCcgca_lnklst_node\fP
+.PP
+This is a derived type with a pointer component of the
+same type to maintain a link to other variables of the
+same type.
+The type is:
+.DS L
+.CW
+type cgca_lnklst_node
+  type( cgca_lnklst_tpayld ) :: value
+  type( cgca_lnklst_node ), pointer :: next
+end type cgca_lnklst_node
+.DE
+This type allows for a standard one-direction linked list,
+which can be schematically illustrated as:
+.PS 1.5i
+copy "lnklst1.pic"
+.PE
+where
+.CW NULL
+means the pointer is not associated.
+.PP
+Access to the list is possible only from the head (top) node.

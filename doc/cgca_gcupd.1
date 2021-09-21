@@ -1,0 +1,129 @@
+.\"$Id: cgca_gcupd.1 525 2018-03-19 21:54:26Z mexas $
+.NH 4
+.XN -N AAA1 -- Subroutine \fCcgca_gcupd\fP
+.PP
+This routine updates the grain boundary connectivity
+array
+.CW gc .
+This is a private array in module
+.CW cgca_m2gb .
+That module contains routines for analysing grain
+boundaries.
+Access to
+.CW gc
+is only via routines of module
+.CW cgca_m2gb.
+.PP
+Routine
+.CW cgca_gcupd
+calls
+.CW cgca_gcf
+from module
+.CW cgca_m2gb
+to update
+.CW gc .
+.PP
+The point of the grain connectivity array
+.CW gc
+is to record the state of grain boundaries between grains.
+The boundary can be intact or fractured.
+The idea of the grain boundary array is a workaround
+the lack of accurate stress/strain redistribution
+across the microstructure.
+If an accurate physically sound algorithm for stress/strain
+redistribution has been implemented, then the grain
+connectivity array or routine
+.CW cgca_gcupd 
+would not be needed.
+Redistribution of stress/strain or other FE fields over
+CA is usually called
+.I localisation ,
+a process where the coarse scale field is redistributed
+(localised) over finer scale.
+.[
+kouznetsova comp mech 2001
+.]
+.PP
+However, at present, no good physically sound
+algorithm has been implemented in CASUP.
+This means that local CA stresses are not updated
+quickly enough with each crack propagation step.
+This leads to situations where a grain boundary fracture
+on one image is not resulting in reduction/elevation of stress
+in neighbouring images.
+This can lead to situations where grain boundary between
+two grains is fractured multiple times on multiple images
+containing this grain boundary.
+This result is not physical.
+.PP
+The grain connectivity array,
+.CW gc ,
+is created to
+compensate for this lack of physics.
+At present
+.CW gc
+is updated
+after each CA iteration by calling
+.CW cgca_gcupd .
+.PP
+It is possible that grains are very large compared
+to coarrays on each image, e.g. much larger than
+the coarray size on each image.
+This would mean that a grain can span many images.
+If two adjacent grains are large, then
+the grain boundary between these grains can be present
+on many images.
+In this case the fact that the specific grain boundary
+has been fractured on some image might have to be
+propagated to many images
+.I beyond
+the nearest neighbours.
+The only way to be sure that the information reaches
+all relevant images is to communicate it to all images.
+Hence a very undesirable all-to-all communication pattern
+emerges. 
+.PP
+Grain boundary failures are recorded by each image
+in its coarray array
+.CW gcupd ,
+which is defined in module
+.CW cgca_m3clvg .
+At the end of every CA iteration, each image
+adds to its
+.CW gcupd
+information on failed grain bondaries collected
+from other images.
+.PP
+The routine loops over all images, starting
+at a randomly chosen image.
+It reads
+.CW cgupd
+array from each image into a local copy
+.CW gcupd_local:
+.DS L
+.CW
+  gcupd_local( : , : ) = gcupd( : , : ) [img_curr]
+.DE
+.CW gcupd
+is reset to
+.CW cgca_gb_state_intact
+at the start of each CA iteration.
+So when
+.CW gcupd
+is analysed at the end of the CA iteration,
+only entries with
+.CW
+gcupd( : , 3 ) .ne. cgca_gb_state_intact
+.R
+trigger a call of
+.CW cgca_gcf
+to update
+.CW gc
+on that image.
+.PP
+All-to-all does not scale.
+For that reason a simplified version of
+this routine is implemented in
+.CW cgca_gcupdn ,
+where the information is collected only from
+the nearest neighbouring images.

@@ -1,0 +1,65 @@
+images:			120
+coarray:		(116,186,232)[4,5,6]
+cells per image:	5005632
+cells per model:	600675840
+record length:		464
+last record num:	5178240
+File size:		2.23769188 GB
+
+Serial	Serial		Parallel	Parallel
+time, s	rate, GB/s	time		rate, GB/s
+*******	**********	**********	**************
+13.604	0.164477408	309.25531	7.23574264E-3
+15.472	0.144619212	461.440826	4.849358462E-3
+15.344	0.145825759	526.220886	4.252381157E-3
+
+
+images:			192
+coarray:		(116,155,174)[4,6,8]
+cells per image:	3128520
+cells per model:	600675840
+record length:		464
+last record num:	5178240
+File size:		2.23769188 GB
+
+Serial	Serial		Parallel	Parallel
+time, s	rate, GB/s	time		rate, GB/s
+*******	**********	**********	**************
+12.856	0.17404739	164.802307	1.357803773E-2
+13.060	0.17132876	237.194824	9.433982894E-3
+13.260	0.16874449	0.500032	4.47509336
+20.261	0.11044186	38.1183815	5.870374665E-2
+15.232	0.14689815	71.1284485	3.145987168E-2
+13.028	0.17174954	104.118507	2.149177901E-2
+
+
+images:			240
+coarray:		(186,116,232)[5,8,6]
+cells per image:	5005632
+cells per model:	1201351680
+record length:		744                                                                                                                              
+last record num:	6458880                                                                                                                        
+File size:		4.47538376 GB
+
+Serial	Serial		Parallel	Parallel
+time, s	rate, GB/s	time		rate, GB/s
+*******	**********	**********	**************
+20.637	0.216859311	560.879028	7.979231887E-3
+20.717	0.216021731	211.289215	2.118131705E-2
+20.561	0.217660725	22.5054092	0.198858142
+21.757	0.205695137	108.350769	4.130458832E-2
+21.749	0.205770835	158.493912	2.823694423E-2
+
+
+images:			480
+coarray:		(155,93,174)[6,10,8]
+cells per image:	2508210
+cells per model:	1203940800
+record length:		620
+last record num:	7767360
+File size:		4.48502922
+
+Serial	Serial		Parallel	Parallel
+time, s	rate, GB/s	time		rate, GB/s
+*******	**********	**********	**************
+25.429	0.176370502	61.3958359	7.30510354E-2

@@ -1,0 +1,73 @@
+#*robodoc*b* tests/Makefile-tests-gfortran
+#  NAME
+#    Makefile-tests-gfortran
+#  SYNOPSIS
+
+#$Id: Makefile-gfortran 382 2017-03-22 11:41:51Z mexas $
+
+FC=gfortran49
+
+#  PURPOSE
+#    Build CGPACK tests on FreeBSD with gfortran.
+#  AUTHOR
+#    Anton Shterenlikht
+#  COPYRIGHT
+#    See CGPACK_Copyright
+#  SOURCE
+
+FFLAGS=-fcoarray=single -Wall -Werror -I. -I$(MODDIR)
+
+CGLIB=cgcapack
+LIBDIR=$(HOME)/lib
+MODDIR=$(HOME)/modules
+MODPREFIX=cgca_
+LIBNAME=libcgcapack
+
+LIB=-fcoarray=single -Wall -Werror -L$(LIBDIR) -l$(CGLIB)
+
+MODSRC=testaux.f90
+MODMOD=$(MODSRC:.f90=.mod)
+MODOBJ=$(MODSRC:.f90=.o)
+
+SRC= \
+testAAA.f90 testAAB.f90 testAAC.f90 testAAD.f90 testAAE.f90 \
+testAAF.f90 testAAG.f90 testAAH.f90 testAAI.f90 testAAJ.f90 \
+testAAK.f90 testAAL.f90 testAAM.f90 testAAN.f90 testAAO.f90 \
+testAAP.f90 testAAQ.f90 testAAR.f90 testAAS.f90 testAAT.f90 \
+testAAU.f90 testAAV.f90 testAAW.f90 testAAX.f90 testAAY.f90 \
+testAAZ.f90 \
+testABA.f90 testABB.f90 testABC.f90 testABD.f90 testABE.f90 \
+testABF.f90 testABG.f90 testABH.f90 testABI.f90 testABJ.f90 \
+testABK.f90 testABL.f90 testABM.f90
+
+#testABK.f90 testABL.f90 - gfortran has no CO_SUM
+
+NON_COARRAY_SRC=test_gc.f90
+NON_COARRAY_EXE=$(NON_COARRAY_SRC:.f90=.xnonca)
+
+OBJ=${SRC:.f90=.o}
+EXE=${SRC:.f90=.x} ${NON_COARRAY_EXE}
+
+.SUFFIXES: .f90 .o .x .mod .xnonca
+
+all: $(OBJ) $(EXE)
+
+.f90.o:
+	$(FC) -c $< $(FFLAGS)
+
+.f90.mod:
+	$(FC) -c $< $(FFLAGS)
+
+.o.x:
+	$(FC) -o $@ $< $(MODOBJ) $(LIB)
+
+.f90.xnonca:
+	$(FC) -o $@ $<
+
+$(OBJ): $(MODMOD) $(MODDIR)/$(MODPREFIX)*.mod $(LIBDIR)/$(LIBNAME).a
+$(MODOBJ) $(MODMOD) : $(MODDIR)/$(MODPREFIX)*.mod $(LIBDIR)/$(LIBNAME).a
+ 
+clean:
+	\rm $(MODMOD) $(MODOBJ) $(OBJ) $(EXE)
+
+#*roboend*

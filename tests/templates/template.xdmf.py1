@@ -1,0 +1,105 @@
+#$Id: template.xdmf.py1 175 2015-12-15 12:31:30Z mexas $
+
+# use defined variables, no indent allowed, start at col 1
+
+infile  = "z.xdmf"  # name of XDMF file
+picfile = "z.png"   # image output file
+vidfile = "z.ogv"   # animation output file
+trlo    = -4        # lower threshold
+trhi    = 0         # upper threshold
+
+# end of user variables
+ 
+try: paraview.simple
+except: from paraview.simple import *
+paraview.simple._DisableFirstRenderCameraReset()
+
+# load XDMF file
+z_xdmf = XDMFReader( FileName=infile )
+
+AnimationScene1 = GetAnimationScene()
+AnimationScene1.EndTime = 10.0
+AnimationScene1.PlayMode = 'Snap To TimeSteps'
+
+z_xdmf.Sets = []
+z_xdmf.Grids = ['T0', 'T30', 'T60', 'T90', 'T120', 'T150', 'T180', 'T210', 'T240', 'T270', 'T300']
+z_xdmf.PointArrays = ['crack']
+
+RenderView1 = GetRenderView()
+RenderView1.CenterOfRotation = [127.5, 127.5, 95.5]
+
+DataRepresentation1 = Show()
+DataRepresentation1.EdgeColor = [0.0, 0.0, 0.5000076295109483]
+DataRepresentation1.Slice = 95
+DataRepresentation1.SelectionPointFieldDataArrayName = 'crack'
+DataRepresentation1.ScalarOpacityUnitDistance = 1.762150384296635
+DataRepresentation1.Representation = 'Outline'
+DataRepresentation1.ScaleFactor = 25.5
+
+RenderView1.CameraPosition = [127.5, 127.5, 883.8540784668097]
+RenderView1.CameraFocalPoint = [127.5, 127.5, 95.5]
+RenderView1.CameraClippingRange = [590.4255376821416, 1039.4068896438118]
+RenderView1.CameraParallelScale = 204.0410497914574
+
+Threshold1 = Threshold()
+Threshold1.Scalars = ['POINTS', 'crack']
+Threshold1.AllScalars = 0
+Threshold1.ThresholdRange = [ trlo, trhi ]
+
+DataRepresentation2 = Show()
+DataRepresentation2.EdgeColor = [0.0, 0.0, 0.5000076295109483]
+DataRepresentation2.SelectionPointFieldDataArrayName = 'crack'
+DataRepresentation2.ColorArrayName = ('POINT_DATA', 'crack')
+DataRepresentation2.ScalarOpacityUnitDistance = 1.88988157484231
+DataRepresentation2.ScaleFactor = 0.2
+
+a1_crack_PVLookupTable = GetLookupTableForArray( "crack", 1, RGBPoints=[-3.0, 0.23, 0.299, 0.754, 1073741822.0, 0.865, 0.865, 0.865, 2147483647.0, 0.706, 0.016, 0.15], VectorMode='Magnitude', NanColor=[0.25, 0.0, 0.0], ColorSpace='Diverging', ScalarRangeInitialized=1.0 )
+
+a1_crack_PiecewiseFunction = CreatePiecewiseFunction( Points=[-3.0, 0.0, 0.5, 0.0, 2147483647.0, 1.0, 0.5, 0.0] )
+
+DataRepresentation2.ScalarOpacityFunction = a1_crack_PiecewiseFunction
+DataRepresentation2.LookupTable = a1_crack_PVLookupTable
+
+a1_crack_PVLookupTable.NanColor = [1.0, 1.0, 0.0]
+a1_crack_PVLookupTable.RGBPoints = [-3.0, 1.0, 1.0, 1.0, 365072217.5, 0.0, 0.0, 1.0, 730144438.0, 0.0, 1.0, 1.0, 1073741822.0, 0.0, 1.0, 0.0, 1438814042.5, 1.0, 1.0, 0.0, 1803886263.0, 1.0, 0.0, 0.0, 2147483647.0, 0.878431, 0.0, 1.0]
+a1_crack_PVLookupTable.ScalarOpacityFunction = a1_crack_PiecewiseFunction
+a1_crack_PVLookupTable.ColorSpace = 'RGB'
+
+RenderView1.CameraPosition = [127.49999999999966, 127.5, 883.8540000000002]
+RenderView1.CameraClippingRange = [590.4254600000002, 1039.4068100000004]
+
+# background
+
+RenderView1.UseGradientBackground = 1
+RenderView1.Background2 = [0.0, 0.0, 0.17254901960784313]
+RenderView1.Background = [0.32941176470588235, 0.34901960784313724, 0.42745098039215684]
+
+# window size
+
+RenderView1.ViewSize = [ 800, 800 ]
+
+AnimationScene1.AnimationTime = 10.0
+AnimationScene1.NumberOfFrames = 100
+AnimationScene1.PlayMode = 'Sequence'
+
+CameraAnimationCue1 = GetCameraTrack()
+CameraAnimationCue1.AnimatedProxy = RenderView1
+CameraAnimationCue1.Mode = 'Path-based'
+
+TimeAnimationCue1 = GetTimeTrack()
+#TimeAnimationCue1.Enabled = 0
+
+AnimationScene1.NumberOfFrames = 100
+AnimationScene1.PlayMode = 'Sequence'
+
+KeyFrame3658 = CameraKeyFrame( FocalPathPoints=[127.5, 127.5, 95.5], FocalPoint=[127.5, 127.5, 95.5], PositionPathPoints=[127.5, 127.5, 883.854, 740.1661272984488, 127.5, 591.6272475657036, 898.6265736288988, 127.5, -68.40801310294381, 485.4052264316708, 127.5, -606.9285573699966, -193.1524595153794, 127.5, -624.6972157143753, -633.9914888582924, 127.5, -108.54102948275286, -510.2917835834677, 127.5, 558.8828547857805], ClosedPositionPath=1, ParallelScale=204.0410497914574, Position=[127.5, 127.5, 883.8540784668097] )
+
+#KeyFrame3658 = CameraKeyFrame( FocalPathPoints=[95.0, 95.0, 0.5], FocalPoint=[127.5, 127.5, 95.5], PositionPathPoints=[127.5, 127.5, 883.854, 801.9479063459808, 127.5, 531.1554409680866, 952.293465747033, 127.5, -214.9494207544796, 467.0766118708058, 127.5, -801.3288684094268, -293.98266798096495, 127.5, -793.2650932904587, -766.6660613215857, 127.5, -196.73624941309754, -600.5453773495822, 127.5, 546.0155060707513], ClosedPositionPath=1, ParallelScale=204.0410497914574, Position=[127.5, 127.5, 883.8540784668097] )
+
+
+KeyFrame3659 = CameraKeyFrame( ParallelScale=204.0410497914574, Position=[127.5, 127.5, 883.8540784668097], KeyTime=1.0, FocalPoint=[127.5, 127.5, 95.5] )
+
+CameraAnimationCue1.KeyFrames = [ KeyFrame3658, KeyFrame3659 ]
+WriteAnimation( vidfile , Magnification=1, Quality=2, FrameRate=6.000000)
+
+Render()

@@ -1,0 +1,65 @@
+.\"$Id: layout.1 525 2018-03-19 21:54:26Z mexas $
+.NH 1
+CASUP library layout
+.XS
+CASUP library layout
+.XE
+.PP
+The library is made up of a set of modules.
+All modules are named following this scheme:
+\fCcgca_m\fP\fIL\fP<\fImodule name\fP>.f90
+or
+\fCcgca_m\fP\fIL\fP<\fImodule name\fP>.F90,
+where file extension
+.CW f90
+means that the file does not need pre-processing,
+and file extension
+.CW F90
+means the file requires pre-processing.
+.I L
+is an integer number, giving the
+.I level
+of each module.
+<\fImodule name\fP>
+is a string of characters
+.CW [a-z] .
+.PP
+The lowest level is 1.
+Modules of level
+.I L+1
+depend only on modules of level
+. I L
+and lower.
+So module of level 3 depends only on modules
+of levels 2 and 1.
+Modules of level 1 do not depend on any other
+modules. 
+The only exception is the top level module
+that is named
+.CW cgca.F90 .
+At the time of writing these are the CASUP modules:
+.DS L
+.CW
+cgca.F90
+cgca_m1co.f90
+cgca_m2alloc.f90
+cgca_m2gb.f90
+cgca_m2geom.f90
+cgca_m2glm.f90
+cgca_m2hx.f90
+cgca_m2lnklst.f90
+cgca_m2mpiio.f90
+cgca_m2out.F90
+cgca_m2pck.F90
+cgca_m2phys.f90
+cgca_m2red.f90
+cgca_m2rnd.f90
+cgca_m2rot.f90
+cgca_m2stat.f90
+cgca_m3clvg.F90
+cgca_m3gbf.f90
+cgca_m3nucl.f90
+cgca_m3pfem.f90
+cgca_m3sld.F90
+cgca_m4fr.f90
+.DE

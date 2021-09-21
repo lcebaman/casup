@@ -1,0 +1,72 @@
+\section{Using CGCA library on HECToR}
+
+The basic assumption of the CGCA model
+is that a 3D coarray grid is used,
+\texttt{[lcob(1):ucob(1),lcob(2):ucob(2),lcob(3):ucob(3)]},
+where \texttt{lcob(3)} and \texttt{ucob(3)} are
+1D arrays of size 3 storing the lower and the upper
+{\em cobounds} of the coarray.
+
+Each node on Hector phase 3 has 32 cores.
+Since one is charged per node, it makes
+perfect sense to use 1 image/core,
+i.e. 1GB max for core, probably lower in
+practice due to OS overheads, etc.
+
+Previous timing analysis shows that max
+speed is achived if communication is
+minimised.
+This partly means that decreasing the
+boundary (halo) areas between images
+is a good idea.
+This, in turn, means that the ideal
+layout of images (or image grid) is
+such that images are arranged
+as \texttt{[$n,n,n$]}, where $n=\textrm{\em ncores}^{1/3}$,
+and {\em ncores} is the total number of cores used.
+
+Previous work \cite{phillips2012} showed that
+about $10^5$ cells are required to represent
+a grain for the model to be scale independent.
+This value is used here.
+Table \ref{tab:hector1}  gives some idea of run times
+and costs.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{rrrrrr}
+\hline
+\\
+cores	&coarray	&grains	&walltime,	&Charge,	&grains \\
+	&		&	&m:s		&kAU		&per kAU (GA) \\
+\hline
+\\
+512	&(200,200,200)[8,8,8]	&40,960	&5:36	&0.2(check!)	&$2.0 \times 10^5$ (check!) \\
+512	&(100,100,100)[8,8,8]	&5120	&1:16	&0.05(check!)	&$1.0 \times 10^5$(check!) \\
+4096	&(10,10,10)[16,16,16]	&40	&2:15	&0.66		&60 \\
+8192	&(10,10,10)[16,16,32]	&81	&5:47	&3.04		&27 \\
+\hline
+\end{tabular}
+\caption{Coarray layout timings, for test \texttt{AAO},
+to help plan Hector jobs.
+Entries are sorted by the last column, which is a
+relative cost of the run, i.e. how many grains can
+be analysed per kAU.}
+\label{tab:hector1}
+\end{table}
+
+There must be a balance between the computation
+time and the communication time.
+Clearly, at least for test \texttt{AAO},
+which is solidification and volume calculation,
+arrays of $10^3$ are too small, leading to
+relatively very short computation times
+and very long communication times.
+Adding more cores leads to poorer efficiency,
+i.e. lower GA.
+Using arrays of $200^3$ increases efficiency by 5 orders
+of magnitude, from small arrays on 8192 cores
+to larger arrays on 512 cores.
+
+This data is very important,
+and must be taken into account when designing future models.

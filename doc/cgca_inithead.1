@@ -1,0 +1,37 @@
+.\"$Id: cgca_inithead.1 201 2016-01-29 11:05:47Z mexas $
+.NH 4
+.XN -N AAAU -- Subroutine \fCcgca_inithead\fP
+.PP
+This routine is used to initialise the list, i.e. create
+the first node.
+.DS L
+.CW
+subroutine cgca_inithead( head, payload )
+type( cgca_lnklst_node ), pointer, intent( out ) :: head
+type( cgca_lnklst_tpayld ), intent( in ) :: payload
+.DE
+.PP
+The routine allocates memory for one node,
+sets its
+.CW value
+to
+.CW payload
+and returns the pointer to this node in
+.CW head .
+The node's
+.CW next
+is set to
+.CW NULL ,
+i.e. the pointer is not associated:
+.DS L
+.CW
+allocate( head )
+head%value = payload
+head%next => null()
+.DE
+.PP
+After calling this routine the linked list will look
+like this:
+.PS 0.8i
+copy "lnklst2.pic"
+.PE

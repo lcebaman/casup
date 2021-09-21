@@ -1,0 +1,43 @@
+\section{\texttt{CG\_CSYM}:
+ return on demand a crystal rotation symmetry tensor}
+
+\label{sec:cg_csym}
+
+\subsection{Purpose}
+
+Crystal rotation symmetry must be taken into
+account in many routines. This routine stores
+24 rotation symmetry tensors and returns one
+on demand. Note that the indentity tensor is
+one of the 24. So there are 23 non-trivial
+rotation symmetry tensors.
+
+\subsection{See also}
+
+\hyperref[sec:cg_cpp]{\texttt{CG\_CPP}}
+
+\subsection{Interface}
+
+\begin{verbatim}
+
+!  IN: NUM - INTEGER, ROTATION SYMMETRY TENSOR NUMBER
+! OUT:  RS - REAL, ROTATION SYMMETRY TENSOR
+! 
+!**********************************************************************73
+! 
+! ONELINE: RETURNS ONE OF 24 CUBIC SYMMETRY ROTATION TENSORS
+! 
+!**********************************************************************73
+
+SUBROUTINE CG_CSYM(NUM,RS)
+
+ IMPLICIT NONE
+
+ INTEGER,INTENT(IN) :: NUM
+ REAL(KIND=8),INTENT(OUT) :: RS(3,3)
+
+\end{verbatim}
+
+\subsection{Details}
+
+A good introduction is given in \cite{engler2010}.

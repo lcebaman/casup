@@ -1,0 +1,21 @@
+#!/bin/bash --login
+#
+#$Id: cray.xc40 398 2017-04-26 13:40:19Z mexas $
+#
+# Run parallel job on Cray XC40
+#
+#PBS -j oe
+#PBS -A e347 
+#PBS -l nodes=10:ppn=24
+#PBS -l walltime=00:10:00
+#PBS -N 240
+
+module add atp stat
+module list
+export XT_SYMMETRIC_HEAP_SIZE=700m
+export ATP_ENABLED=1
+export PGAS_MEMINFO_DISPLAY=1
+
+cd $PBS_O_WORKDIR
+
+aprun -n 240 -N 24 -S 12 -d 1 -T program

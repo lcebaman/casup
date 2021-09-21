@@ -1,0 +1,126 @@
+\section{\texttt{CG\_CPP}:
+ calculation of the minimum angle (maximum projection)
+ between a vector in a CA coord. system and a crystal
+ vector}
+
+\label{sec:cg_cpp}
+
+\subsection{Purpose}
+
+The aim of this routine is to find a crystallographic
+direction (or a crystallographic plane having this
+direction as a normal)
+that is closest to the direction of the
+applied vector in CA coord. system. If the applied
+vector is the direction of the maximum principal
+stress, then this plane is a candidate for cleavage
+propagation.
+
+\subsection{See also}
+
+\hyperref[sec:cg_clvg]{\texttt{CG\_CLVG}},
+\hyperref[sec:cg_csym]{\texttt{CG\_CSYM}}
+
+\subsection{Interface}
+
+\begin{verbatim}
+
+! IN:
+!        AVEC - A VECTOR IN CA COORD. SYSTEM
+!           R - ROTATION TENSOR, DEFINING THE ORIENTATION OF A CRYSTAL
+!        CVEC - CRYSTAL VECTOR, IN CRYSTAL COORD. SYSTEM
+! OUT:
+!     MAXPROJ - MAX PROJECTION OF THE AVEC ONTO CVEC AND ALL OTHER
+!               CRYSTAL VECTORS DEFINING PLANES OF THE SAME FAMILY
+!               AS CVEC.
+!         CCA - THE CRYSTAL VECTOR IN CA COORD. SYSTEM, WHICH
+!               PRODUCES THE MAX PROJ VALUE.
+!
+!**********************************************************************73
+!
+! ONELINE: MIN ANGLE BETWEEN A VECTOR AND A NORMAL TO A CRYSTAL PLANE
+!
+!**********************************************************************73
+
+ SUBROUTINE CG_CPP(AVEC,R,CVEC,MAXPROJ,CCA)
+
+ IMPLICIT NONE
+
+ REAL(KIND=8),INTENT(IN) :: AVEC(3),R(3,3),CVEC(3)
+ REAL(KIND=8),INTENT(OUT) :: MAXPROJ,CCA(3)
+
+\end{verbatim}
+
+\subsection{Details}
+
+This routine is non-trivial only because of the
+need to take crystal symmetry into account. Refer
+to Fig. \ref{fig:cg_cpp} below.
+
+\begin{figure}[htb]
+\centering
+\includegraphics[width=0.5\textwidth]{./cg_cpp.pdf}
+\caption{Schematic diagram illustrating
+\hyperref[sec:cg_cpp]{\texttt{CG\_CPP}}
+routine. Refer to the main text for details.}
+\label{fig:cg_cpp}
+\end{figure}
+
+Consider a CA array with its coord. system (superscript
+CA). A vector $\vec{a}$ is defined in this coord. system.
+
+Within the CA array there is a grain (crystal) defined by
+its rotation tensor $\mathbf{R}$, which has the usual
+meaning: a vector $\vec{c}$ in the crystal coord. system
+is transformed into a vector in the CA coord. system as
+
+\begin{equation}
+ c^{CA}
+  =
+   \mathbf{R} c^{C}
+ \label{eq:cpp:pub}
+\end{equation}
+%
+where superscript $C$ means relative to the crystal
+coord. system.
+
+Both $\vec{a}$ and $\vec{c}$ are unit vectors.
+
+The dot product of $\vec{a}$ and $\vec{c}$ is
+obtained simply as (in tensor notation)
+
+\begin{equation}
+ \texttt{dot product }
+  =
+   a\cdot\mathbf{R}c
+ \label{eq:cpp:pluck}
+\end{equation}
+
+However, due to crystal symmetry, $\vec{c}$ defines
+a class of planes, not just one plane. To take this into
+account we use rotational symmetry tensors, $\mathbf{R}^S$,
+see \hyperref[sec:cg_csym]{\texttt{CG\_CSYM}}.
+For cubic crystals there are 24 distinct $\mathbf{R}^S$
+tensors, including the trivial $\mathbf{R=I}$.
+
+So we get 24 dot products, of which we choose
+the one with the maximum absolute value
+for output
+
+\begin{equation}
+ \texttt{max dot product }
+  =
+   \max
+    |
+     a \cdot \mathbf{R} \mathbf{R}^S c
+    |
+ \label{eq:cpp:mumps}
+\end{equation}
+
+The rotational symmetry
+tensor, producing the maximum dot product value,
+$\mathbf{R}^S_{max}$ is used to calculate the
+crystallographic plane, of type defined by $\vec{c}$,
+that is closest to being normal to $\vec{a}$:
+$\mathbf{R}^S_{max}c$.
+

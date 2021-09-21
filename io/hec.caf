@@ -1,0 +1,25 @@
+#!/bin/bash --login
+#PBS -A e277
+#PBS -l mppwidth=4096
+#PBS -l walltime=00:10:00
+#PBS -l mppnppn=32
+#PBS -j oe
+
+# change directory to where the job was submitted from
+
+cd $PBS_O_WORKDIR
+
+ # Get total number of processes and the number per node
+
+export NPROC=`qstat -f $PBS_JOBID | awk '/mppwidth/ {print $3}'`
+export NTASK=`qstat -f $PBS_JOBID | awk '/mppnppn/  {print $3}'`
+
+echo "Starting job $PBS_JOBID at `date`"
+
+lfs setstripe -c 32 -s 2m .
+
+aprun -n $NPROC -N $NTASK ./cafio.x
+
+echo "lfs getstripe -cs native.dat : `lfs getstripe -cs native.dat`"
+
+echo "Finished job $PBS_JOBID at `date`"

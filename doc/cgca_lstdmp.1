@@ -1,0 +1,40 @@
+.\"$Id: cgca_lstdmp.1 201 2016-01-29 11:05:47Z mexas $
+.NH 4
+.XN -N AAAV -- Subroutine \fCcgca_lstdmp\fP
+.PP
+This routine dumps the
+.CW value
+fields of all nodes on the list to stdout.
+.DS L
+.CW
+subroutine cgca_lstdmp( head )
+type( cgca_lnklst_node ), pointer, intent( in ) :: head
+.DE
+.PP
+The algorithm is to start with the head node
+and move downwards one node at a time until
+a node's
+.CW %next
+is not associated.
+.DS L
+.CW
+  type( cgca_lnklst_node ), pointer :: tmp
+  if ( .not. associated( head ) ) return
+  tmp => head
+  do
+    write (*,*) tmp%value
+    tmp => tmp%next
+    if ( .not. associated( tmp ) ) exit
+  end do
+.DE
+.PP
+A typical output might look like this.
+.DS L
+.CW
+          40          31          59          49          39          77
+          40          21          59          49          30          77
+          40          21          40          58          39          58
+          40           1          40          77          20          77
+          40           1           1          77          39          39
+           1           1           1          39          39          77
+.DE

@@ -1,0 +1,160 @@
+<?xml version="1.0" ?>
+
+<!--
+$Id: template.xdmf 175 2015-12-15 12:31:30Z mexas $
+See http://xdmf.org for details.
+Dimensions are specified with the slowest varying dimension first (i.e. KJI order).
+-->
+
+<!DOCTYPE Xdmf SYSTEM "Xdmf.dtd" [
+<!ENTITY model "192 256 256">
+]>
+<Xdmf xmlns:xi="http://www.w3.org/2001/XInclude" Version="2.0">
+
+<Domain>
+    <Topology name="topo" TopologyType="3DCoRectMesh"
+	Dimensions = "&model;" >
+    </Topology>
+    <Geometry name="geo" Type="ORIGIN_DXDYDZ">
+        <!-- Origin -->
+        <DataItem Format="XML" Dimensions="3">
+        0.0 0.0 0.0
+        </DataItem>
+        <!-- DxDyDz -->
+        <DataItem Format="XML" Dimensions="3">
+        1.0 1.0 1.0
+        </DataItem>
+    </Geometry>
+ 
+    <Grid Name="TimeSeries" GridType="Collection" CollectionType="Temporal">
+        <Time TimeType="HyperSlab">
+            <DataItem Format="XML" NumberType="Float" Dimensions="3">
+              0.0 1.0 11
+            </DataItem>
+        </Time>
+ 
+        <Grid Name="T0" GridType="Uniform">
+            <Topology Reference="/Xdmf/Domain/Topology[1]"/>
+            <Geometry Reference="/Xdmf/Domain/Geometry[1]"/>
+            <Attribute Name="crack" Center="Node">
+                <DataItem Format="Binary" DataType="Int" Precision="4"
+                          Endian="Native" Dimensions="&model;">
+                   zf0.raw
+                </DataItem>
+            </Attribute>
+        </Grid>
+ 
+        <Grid Name="T30" GridType="Uniform">
+            <Topology Reference="/Xdmf/Domain/Topology[1]"/>
+            <Geometry Reference="/Xdmf/Domain/Geometry[1]"/>
+            <Attribute Name="crack" Center="Node">
+                <DataItem Format="Binary" DataType="Int" Precision="4"
+                          Endian="Native" Dimensions="&model;">
+                   zf30.raw
+                </DataItem>
+            </Attribute>
+        </Grid>
+ 
+        <Grid Name="T60" GridType="Uniform">
+            <Topology Reference="/Xdmf/Domain/Topology[1]"/>
+            <Geometry Reference="/Xdmf/Domain/Geometry[1]"/>
+            <Attribute Name="crack" Center="Node">
+                <DataItem Format="Binary" DataType="Int" Precision="4"
+                          Endian="Native" Dimensions="&model;">
+                   zf60.raw
+                </DataItem>
+            </Attribute>
+        </Grid>
+ 
+        <Grid Name="T90" GridType="Uniform">
+            <Topology Reference="/Xdmf/Domain/Topology[1]"/>
+            <Geometry Reference="/Xdmf/Domain/Geometry[1]"/>
+            <Attribute Name="crack" Center="Node">
+                <DataItem Format="Binary" DataType="Int" Precision="4"
+                          Endian="Native" Dimensions="&model;">
+                   zf90.raw
+                </DataItem>
+            </Attribute>
+        </Grid>
+ 
+        <Grid Name="T120" GridType="Uniform">
+            <Topology Reference="/Xdmf/Domain/Topology[1]"/>
+            <Geometry Reference="/Xdmf/Domain/Geometry[1]"/>
+            <Attribute Name="crack" Center="Node">
+                <DataItem Format="Binary" DataType="Int" Precision="4"
+                          Endian="Native" Dimensions="&model;">
+                   zf120.raw
+                </DataItem>
+            </Attribute>
+        </Grid>
+ 
+        <Grid Name="T150" GridType="Uniform">
+            <Topology Reference="/Xdmf/Domain/Topology[1]"/>
+            <Geometry Reference="/Xdmf/Domain/Geometry[1]"/>
+            <Attribute Name="crack" Center="Node">
+                <DataItem Format="Binary" DataType="Int" Precision="4"
+                          Endian="Native" Dimensions="&model;">
+                   zf150.raw
+                </DataItem>
+            </Attribute>
+        </Grid>
+ 
+        <Grid Name="T180" GridType="Uniform">
+            <Topology Reference="/Xdmf/Domain/Topology[1]"/>
+            <Geometry Reference="/Xdmf/Domain/Geometry[1]"/>
+            <Attribute Name="crack" Center="Node">
+                <DataItem Format="Binary" DataType="Int" Precision="4"
+                          Endian="Native" Dimensions="&model;">
+                   zf180.raw
+                </DataItem>
+            </Attribute>
+        </Grid>
+ 
+        <Grid Name="T210" GridType="Uniform">
+            <Topology Reference="/Xdmf/Domain/Topology[1]"/>
+            <Geometry Reference="/Xdmf/Domain/Geometry[1]"/>
+            <Attribute Name="crack" Center="Node">
+                <DataItem Format="Binary" DataType="Int" Precision="4"
+                          Endian="Native" Dimensions="&model;">
+                   zf210.raw
+                </DataItem>
+            </Attribute>
+        </Grid>
+ 
+        <Grid Name="T240" GridType="Uniform">
+            <Topology Reference="/Xdmf/Domain/Topology[1]"/>
+            <Geometry Reference="/Xdmf/Domain/Geometry[1]"/>
+            <Attribute Name="crack" Center="Node">
+                <DataItem Format="Binary" DataType="Int" Precision="4"
+                          Endian="Native" Dimensions="&model;">
+                   zf240.raw
+                </DataItem>
+            </Attribute>
+        </Grid>
+ 
+        <Grid Name="T270" GridType="Uniform">
+            <Topology Reference="/Xdmf/Domain/Topology[1]"/>
+            <Geometry Reference="/Xdmf/Domain/Geometry[1]"/>
+            <Attribute Name="crack" Center="Node">
+                <DataItem Format="Binary" DataType="Int" Precision="4"
+                          Endian="Native" Dimensions="&model;">
+                   zf270.raw
+                </DataItem>
+            </Attribute>
+        </Grid>
+ 
+        <Grid Name="T300" GridType="Uniform">
+            <Topology Reference="/Xdmf/Domain/Topology[1]"/>
+            <Geometry Reference="/Xdmf/Domain/Geometry[1]"/>
+            <Attribute Name="crack" Center="Node">
+                <DataItem Format="Binary" DataType="Int" Precision="4"
+                          Endian="Native" Dimensions="&model;">
+                   zf300.raw
+                </DataItem>
+            </Attribute>
+        </Grid>
+ 
+ 
+    </Grid>
+</Domain>
+</Xdmf>

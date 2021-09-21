@@ -1,0 +1,40 @@
+<?xml version="1.0" ?>
+
+<!--
+$Id: hdf5.xdmf 411 2017-05-18 11:46:09Z mexas $
+
+See http://xdmf.org for details.
+Dimensions are specified with the slowest varying dimension first (i.e. KJI order).
+-->
+
+<!DOCTYPE Xdmf SYSTEM "Xdmf.dtd" [
+<!ENTITY model "308 232 154">
+]>
+
+<Xdmf Version="2.1" xmlns:xi="http://www.w3.org/2003/XInclude">
+  <Domain Name="brick">
+    <Topology name="topo" TopologyType="3DCoRectMesh"
+	Dimensions = "&model;" >
+    </Topology>
+    <Geometry name="geo" Type="ORIGIN_DXDYDZ">
+        <!-- Origin -->
+        <DataItem Format="XML" Dimensions="3">
+        0.0 0.0 0.0
+        </DataItem>
+        <!-- DxDyDz -->
+        <DataItem Format="XML" Dimensions="3">
+        1.0 1.0 1.0
+        </DataItem>
+    </Geometry>
+    <Grid Name="zzz" GridType="Uniform">
+            <Topology Reference="/Xdmf/Domain/Topology[1]"/>
+            <Geometry Reference="/Xdmf/Domain/Geometry[1]"/>
+            <Attribute Name="img" Center="Node">
+                <DataItem Format="HDF" DataType="Int" Precision="4"
+                          Dimensions="&model;">
+                   hdf5.dat:/IntArray
+                </DataItem>
+            </Attribute>
+    </Grid>
+  </Domain>
+</Xdmf>

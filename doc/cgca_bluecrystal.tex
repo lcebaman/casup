@@ -1,0 +1,52 @@
+\section{CGCA on BlueCrystal}
+
+I use phase 2. I normally use one 8-core
+2.8GHz 8GB node, i.e. 1GB/core.
+As of 10-MAR-2013 there is no cluster(?)
+Intel license on BC, so it is not possible
+to run coarray codes on multiple nodes, only
+a single node.
+I use \texttt{ifort} 12.0.2 20110112.
+
+The timings below are from test \texttt{testAAL},
+which is solidification
+only, with 2 large writes of the whole super
+array, one in the beginning and the other at
+the end.
+The grain resolution is $10^{-5}$.
+Cubic array and coarray layout is used in all
+runs, e.g. the coarray is declared as
+\texttt{(n,n,n)[2,2,2]}, where $n$ is the
+number of cells along one dimension of the
+cube.
+The timings are in Tab. \ref{tab:bc:test:aal}:
+
+\begin{table}[h]
+\centering
+\begin{tabular}{cclllp{8em}}
+\hline
+\\
+$n$	&grains	& mem/image	&node mem	&node used	&elapsed time \\ 
+	&	& GB		&		&		& h:m:s \\
+\hline
+\\
+400	&5120	& 0.5	&		&		&50m \\
+450	&7290	&0.68	&8155144k	&7937716k	&1:10:24 \\
+460	&7786	&0.73	&		&		&1:18:56 \\
+470     &8305   &0.77   &8155148k       &8100948k       &1:22:55 \\
+480     &8847   &0.82   &               &               &1:26:24 \\
+490     &9411   &0.88   &               &               &1:29:59 \\
+490     &9411   &0.88   &               &               &0:48:36, no array output \\
+500	&10000	&0.93   &8155148k       &8108244k       &$>10$ hours, Swap: 7776616k used \\
+\hline
+\end{tabular}
+\caption{Coarray runtimes for a single node on BlueCrystal phase 2.
+Test \texttt{testAAL}.}
+\label{tab:bc:test:aal}
+\end{table}
+
+Note: looking at 490 model, two file write times
+can be as high as 40 min!
+
+ {\bf Conclusion}: for this test, at least, the biggest
+array of 4 byte integers seems to be $490^3$.

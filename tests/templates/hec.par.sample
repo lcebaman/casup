@@ -1,0 +1,23 @@
+#!/bin/bash --login
+#
+#$Id: hec.par.sample 191 2015-12-15 21:46:16Z mexas $
+#
+#PBS -l mppwidth=64
+#PBS -l mppnppn=32
+#PBS -N testABG
+#PBS -l walltime=0:10:0
+#PBS -A e277
+#PBS -j oe
+
+module add PrgEnv-cray perftools craype-hugepages8M atp
+module list
+export XT_SYMMETRIC_HEAP_SIZE=700m
+export ATP_ENABLED=1
+
+# Switch to current working directory
+cd $PBS_O_WORKDIR
+
+export MPPWIDTH=`qstat -f $PBS_JOBID | awk '/mppwidth/ {print $3}'`
+export MPPNPPN=`qstat -f $PBS_JOBID | awk '/mppnppn/ {print $3}'`
+
+aprun -n ${MPPWIDTH} -N ${MPPNPPN} -S 2 -d 1 ./testABG.x 2 2 >& testABG.out

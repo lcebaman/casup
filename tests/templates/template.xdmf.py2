@@ -1,0 +1,65 @@
+#$Id: template.xdmf.py2 175 2015-12-15 12:31:30Z mexas $
+
+try: paraview.simple
+except: from paraview.simple import *
+paraview.simple._DisableFirstRenderCameraReset()
+
+z_xdmf = XDMFReader( FileName='z.xdmf' )
+
+AnimationScene1 = GetAnimationScene()
+AnimationScene1.EndTime = 10.0
+AnimationScene1.PlayMode = 'Snap To TimeSteps'
+
+z_xdmf.Sets = []
+z_xdmf.Grids = ['T0', 'T30', 'T60', 'T90', 'T120', 'T150', 'T180', 'T210', 'T240', 'T270', 'T300']
+z_xdmf.PointArrays = ['crack']
+
+RenderView1 = GetRenderView()
+RenderView1.CenterOfRotation = [99.5, 99.5, 199.5]
+
+DataRepresentation1 = Show()
+DataRepresentation1.EdgeColor = [0.0, 0.0, 0.5000076295109483]
+DataRepresentation1.Slice = 199
+DataRepresentation1.SelectionPointFieldDataArrayName = 'crack'
+DataRepresentation1.ScalarOpacityUnitDistance = 1.9457909325696094
+DataRepresentation1.Representation = 'Outline'
+DataRepresentation1.ScaleFactor = 39.900000000000006
+
+RenderView1.CameraPosition = [99.5, 99.5, 1142.7561204025358]
+RenderView1.CameraFocalPoint = [99.5, 99.5, 199.5]
+RenderView1.CameraClippingRange = [536.8185591985105, 1457.1524622085738]
+RenderView1.CameraParallelScale = 244.13264836969265
+
+Threshold1 = Threshold()
+
+Threshold1.Scalars = ['POINTS', 'crack']
+Threshold1.ThresholdRange = [-3.0, 2147483647.0]
+
+Threshold1.AllScalars = 0
+Threshold1.ThresholdRange = [-3.0, 0.0]
+
+DataRepresentation2 = Show()
+DataRepresentation2.EdgeColor = [0.0, 0.0, 0.5000076295109483]
+DataRepresentation2.SelectionPointFieldDataArrayName = 'crack'
+DataRepresentation2.ColorArrayName = ('POINT_DATA', 'crack')
+DataRepresentation2.ScalarOpacityUnitDistance = 1.7320508075688772
+DataRepresentation2.ScaleFactor = 0.2
+
+a1_crack_PVLookupTable = GetLookupTableForArray( "crack", 1, RGBPoints=[-3.0, 0.23, 0.299, 0.754, 1073741822.0, 0.865, 0.865, 0.865, 2147483647.0, 0.706, 0.016, 0.15], VectorMode='Magnitude', NanColor=[0.25, 0.0, 0.0], ColorSpace='Diverging', ScalarRangeInitialized=1.0 )
+
+a1_crack_PiecewiseFunction = CreatePiecewiseFunction( Points=[-3.0, 0.0, 0.5, 0.0, 2147483647.0, 1.0, 0.5, 0.0] )
+
+DataRepresentation2.ScalarOpacityFunction = a1_crack_PiecewiseFunction
+DataRepresentation2.LookupTable = a1_crack_PVLookupTable
+
+a1_crack_PVLookupTable.ScalarOpacityFunction = a1_crack_PiecewiseFunction
+
+RenderView1.CameraViewUp = [-0.23168815510934399, 0.295870302962722, -0.9267045713747051]
+RenderView1.CameraPosition = [168.38086733394152, 1000.5240094507878, 469.95012328596755]
+RenderView1.CameraClippingRange = [616.3953868850049, 1356.9816313770839]
+RenderView1.CameraFocalPoint = [99.49999999999996, 99.50000000000001, 199.49999999999994]
+
+WriteAnimation('z.ogv', Magnification=1, Quality=2, FrameRate=1.000000)
+
+
+Render()

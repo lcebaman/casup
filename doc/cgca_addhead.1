@@ -1,0 +1,66 @@
+.\"$Id: cgca_addhead.1 201 2016-01-29 11:05:47Z mexas $
+.NH 4
+.XN -N AAAW -- Subroutine \fCcgca_addhead\fP
+.PP
+This routine adds a new node
+.I on
+.I top
+of the current head.
+The list becomes longer by one node.
+.DS L
+.CW
+subroutine cgca_addhead( head, payload )
+type( cgca_lnklst_node ), pointer, intent( inout ) :: head
+type( cgca_lnklst_tpayld ), intent( in ) :: payload
+.DE
+.PP
+Pointer to the head node is given as input.
+Memory is allocated for one node.
+It's
+.CW value
+is set to
+.CW payload .
+It's
+.CW next
+is pointed to the previous
+.CW head ,
+i.e. to
+.CW head%next .
+The pointer to the new
+.CW head
+is returned.
+.DS L
+.CW
+type( cgca_lnklst_node ), pointer :: tmp
+allocate( tmp )
+tmp%value = head%value
+tmp%next => head%next
+allocate( head )
+head%value = payload
+head%next => tmp
+.DE
+.PP
+The action of this routine is illustrated schematically
+below.
+Imagine the
+.CW value
+of the
+.CW head
+node was
+.CW xx
+before calling this routine.
+The list prior to calling this routine is shown on the left.
+The list after this routine was called with
+.CW value=aa
+is shown on the right.
+.PP
+.mk
+.PS 1.3i
+.in 1i
+copy "lnklst3.pic"
+.PE
+.rt
+.PS 1.8i
+.in 3.5i
+copy "lnklst4.pic"
+.PE

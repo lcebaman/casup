@@ -1,0 +1,15 @@
+#!/bin/sh --login
+#
+#$Id: template.arc.serial 175 2015-12-15 12:31:30Z mexas $
+#
+#PBS -A e347
+#PBS -l select=1:serial=true:ncpus=1
+#PBS -l walltime=00:20:00
+#PBS -N compress
+#PBS -j oe
+
+# Switch to current working directory
+export PBS_O_WORKDIR=$(readlink -f $PBS_O_WORKDIR)
+cd $PBS_O_WORKDIR
+
+tar cJf z.txz zg0.raw

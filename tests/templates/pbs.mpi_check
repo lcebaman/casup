@@ -1,0 +1,7 @@
+#!/bin/sh
+#PBS -l walltime=01:00:00,nodes=4:ppn=16
+#PBS -j oe
+#PBS -m abe
+
+cd $HOME/nobackup/cgpack/branches/coarray/tests
+cm-launcher mpirun -np 64 ./mpi_check.xnonca > mpi_check.out

@@ -1,0 +1,17 @@
+$Id: README 525 2018-03-19 21:54:26Z mexas $
+!  AUTHOR
+!    Anton Shterenlikht
+!  COPYRIGHT
+!    See LICENSE
+!  DESCRIPTION
+
+This is a top CASUP documentation directory.
+The user manual is build from here.
+
+I can build doc.ps on FreeBSD or linux
+with groff 1.22.2 or 1.18.1.4, graphviz 2.38,
+transfig 3.2.5e (I use fig2dev part of it) and awk.
+
+In case transfig or graphviz are not installed on your system:
+https://sourceforge.net/projects/mcj/files/mcj-source/transfig.3.2.5e.tar.gz
+http://www.graphviz.org/pub/graphviz/ARCHIVE/

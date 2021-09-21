@@ -1,0 +1,54 @@
+\documentclass[a4paper,12pt]{article}
+
+\usepackage[
+    pdftex,
+    pdftitle={CASUP manual},
+    pdfauthor={Joe Phillips, Anton Shterenlikht, University of Bristol},
+    pdfpagemode={UseOutlines},
+    pdfpagelayout={TwoColumnRight},
+    bookmarks, bookmarksopen,bookmarksnumbered={True},
+    pdfstartview={FitH},
+    colorlinks, linkcolor={blue}, citecolor={blue}, urlcolor={blue}
+    ]{hyperref}
+
+\usepackage{amssymb, amsmath, amsthm, eulervm, multicol, comment}
+\usepackage{natbib,graphicx}
+
+\usepackage[lined,boxed,linesnumbered]{algorithm2e}
+
+\setcounter{tocdepth}{1}
+
+\title{CASUP manual}
+
+\author{A Shterenlikht, J Phillips \\
+Mech Eng Dept, University of Bristol, UK}
+
+\begin{document}
+
+\newcommand{\tenrtwo}[1]{\mathbold{#1}}
+\newcommand{\tenrfour}[1]{\mathcal{#1}}
+
+\maketitle
+
+\tableofcontents
+
+\begin{comment}
+\include{cgca_conventions}
+\include{cg_clvg}
+\include{cg_cpp}
+\include{cg_csym}
+\include{cgca_clvg_alg}
+\end{comment}
+
+\include{cgca_hx}
+
+\begin{comment}
+\include{cgca_bluecrystal}
+\include{cgca_hector}
+\include{notes}
+\end{comment}
+
+\bibliography{/home/mexas/nobkp/Ind/all}
+\bibliographystyle{plain}
+
+\end{document}

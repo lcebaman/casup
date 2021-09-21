@@ -1,0 +1,215 @@
+#$Id: robodoc.rc 305 2016-06-28 14:49:32Z mexas $
+
+#
+items:
+    NAME
+    PURPOSE
+    SYNOPSIS
+    PARAMETER
+    PARAMETERS
+    DESCRIPTION
+    NOTE
+    NOTES
+    INPUT
+    INPUTS
+    OUTPUT
+    OUTPUTS
+    SIDE EFFECTS
+    AUTHOR
+    CONTAINS
+    COPYRIGHT
+    USES
+    USED BY
+    SOURCE
+    WARNINGS
+    USAGE
+    FUNCTION
+    CREATION DATE
+    MODIFICATION HISTORY
+    HISTORY
+    ARGUMENTS
+    OPTIONS
+    SWITCHES
+    RESULTS
+    RESULT
+    RETURN VALUE
+    EXAMPLE
+    DIAGNOSTICS
+    ERRORS
+    BUGS
+    TODO
+    IDEAS
+    PORTABILITY
+    SEE ALSO
+    METHODS
+    NEW METHODS
+    ATTRIBUTES
+    NEW ATTRIBUTES
+    TAGS
+    COMMANDS
+    DERIVED FROM
+    DERIVED BY
+    CHILDREN
+    PARENTS
+ignore items:
+    HISTORY
+item order:
+    NAME
+    SYNOPSIS
+    PURPOSE
+    PARAMETER
+    PARAMETERS
+    WARNINGS
+    INPUT
+    INPUTS
+    OUTPUT
+    OUTPUTS
+    SIDE EFFECTS
+    DESCRIPTION
+    NOTE
+    NOTES
+    AUTHOR
+    COPYRIGHT
+    CONTAINS
+    USES
+    USED BY
+    SOURCE
+source items:
+    SYNOPSIS
+    PARAMETER
+    PARAMETERS
+    INPUT
+    INPUTS
+    OUTPUT
+    OUTPUTS
+options:
+    --src ./
+    --index
+    --syntaxcolors
+    --nopre
+    --sections
+    --toc
+    --ignore_case_when_linking
+headertypes:
+    a  Copyright robo_cop
+    b  "Make files" robo_mk
+    c  "Abstract interfaces" robo_abs
+    d  "Data structures" robo_data 
+    e  "Code statistics" robo_stats
+    f  Submodules robo_submod
+    l  License robo_lic
+    m  Modules robo_mod
+    p  Parameters robo_par
+    s  Subroutines robo_sub
+    u  "Unit tests" robo_utest
+    v  "Variables" robo_var
+ignore files:
+    epcc_course
+    Makefile
+header markers:
+    !*robodoc*
+    #*robodoc*
+    *robodoc*
+remark markers:
+    !
+    #
+end markers:
+    !*roboend*
+    #*roboend*
+    *roboend*
+remark begin markers:
+    ***
+remark end markers:
+    ***
+source line comments:
+    !
+    #
+keywords:
+    abs
+    abstract
+    acos
+    all
+    allocatable
+    allocate
+    allocated
+    and
+    any
+    call
+    character
+    close
+    contains
+    count
+    cycle
+    deallocate
+    dim
+    do
+    dot_product
+    else
+    end
+    eq
+    error
+    exit
+    false
+    flush
+    ge
+    gt
+    if
+    images
+    implicit
+    inquire
+    int
+    integer
+    intent
+    interface
+    isnan
+    kind
+    lbound
+    lcobound
+    le
+    logical
+    lt
+    matmul
+    maxloc
+    mod
+    module
+    ne
+    nint
+    none
+    norm2
+    num_images
+    open
+    or
+    parameter
+    pointer
+    private
+    procedure
+    program
+    public
+    random_number
+    random_seed
+    read
+    real
+    reshape
+    save
+    selected_int_kind
+    selected_real_kind
+    shape
+    size
+    sqrt
+    stat
+    stop
+    subroutine
+    sum
+    sync
+    system_clock
+    target
+    then
+    this_image
+    transpose
+    trim
+    true
+    type
+    ubound
+    ucobound
+    use
+    write

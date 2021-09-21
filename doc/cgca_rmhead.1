@@ -1,0 +1,119 @@
+.\"$Id: cgca_rmhead.1 201 2016-01-29 11:05:47Z mexas $
+.NH 4
+.XN -N AAAX -- Subroutine \fCcgca_rmhead\fP
+.PP
+This routine removes the head node.
+The node that was below the head becomes the head node.
+The list becomes shorter by one node.
+.DS L
+.CW
+subroutine cgca_rmhead( head, stat )
+type( cgca_lnklst_node ), pointer, intent( inout ) :: head
+integer( kind=idef ), intent( out ) :: stat
+.DE
+.PP
+Pointer to the
+.CW head
+node is given as input.
+Pointer to
+.CW head%next
+is returned as new
+.CW head .
+Memory for the old
+.CW head
+node is deallocated.
+On output
+.CW stat
+is set to
+.CW 1
+if
+.CW head
+is
+.CW NULL ,
+i.e. if
+.CW head
+is not associated.
+Otherwise
+.CW stat
+is set to
+.CW 0 .
+If
+.CW head
+is not associated on entry, then the routine
+just sets
+.CW stat
+to
+.CW 1
+and exits.
+If the list consists of only a single node,
+then on exit
+.CW head
+will be not associated.
+So
+.CW stat
+will be set to
+.CW 1 .
+.DS L
+.CW
+type( cgca_lnklst_node ), pointer :: tmp
+stat = 0
+if ( associated( head ) ) then
+  tmp => head
+  head => head%next
+  deallocate( tmp )
+end if
+if ( .not. associated( head ) ) stat = 1
+.DE
+.PP
+The action of this routine is illustrated schematically
+below.
+.PP
+First consider the case when the list is longer than a single
+node.
+Before calling this routine the
+.CW value
+of the
+.CW head
+node is
+.CW xx 
+(left diagram).
+After calling this routine
+the head node becomes the one with the
+.CW value
+of
+.CW zz .
+Since
+.CW head%next
+is associated,
+.CW stat
+is set to
+.CW 0 .
+.PP
+.mk
+.PS 0.9i
+.in 3.5i
+copy "lnklst7.pic"
+.PE
+.rt
+.PS 1.2i
+.in 1i
+copy "lnklst3.pic"
+.PE
+.PP
+Now consider the case when the list consists of a single node.
+On input the list can be shown schematically as follows.
+.PP
+.PS 0.9i
+copy "lnklst2.pic"
+.PE
+.PP
+On output, the
+.CW head%next
+will be not associated, so
+.CW stat
+will be set to
+.CW 1 .
+The linked list is no more.
+If the list is required again, it has to be re-initialised
+with
+.CW cgca_inithead .

@@ -1,0 +1,30 @@
+#!/bin/bash --login
+#
+#$Id: arc.par.sample 1092 2014-06-13 09:25:35Z mexas $
+#
+#PBS -j oe
+#PBS -A e347
+#PBS -l select=4
+#PBS -l walltime=00:10:0
+#PBS -N CrayParIO
+
+module add PrgEnv-cray perftools craype-hugepages8M atp
+module list
+export XT_SYMMETRIC_HEAP_SIZE=700m
+export ATP_ENABLED=1
+
+# resolve all symlinks to absolute paths
+export PBS_O_WORKDIR=$(readlink -f $PBS_O_WORKDIR)
+
+# Switch to current working directory
+cd $PBS_O_WORKDIR
+
+# set Cray Fortran assign enviroment
+#FILENV=craypario.env
+#export FILENV
+#assign -I -m on -s unblocked f:zzz
+#echo $FILENV
+#cat $FILENV
+
+# Run the parallel program
+aprun -n 96 -N 24 -S 12 -d 1 -T craypario.x

@@ -1,0 +1,12 @@
+//$Id: lnklst2.gv 169 2015-11-04 11:11:58Z mexas $
+
+digraph "" {
+bgcolor = transparent;
+label = "lnklst2.gv";
+fontsize = 8;
+
+node [ shape = Mrecord, fontsize=8 ];
+node1 [ label = "<f1> value | <f2> next" ];
+null  [ shape="circle", label="NULL" ];
+node1:f2 -> null;
+}

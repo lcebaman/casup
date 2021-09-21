@@ -1,0 +1,32 @@
+.\"$Id: msext.tmac 195 2016-01-27 14:06:47Z mexas $
+.\" Macro defitions to use with ms, i.e. EXTensions to MS
+.\"******************************************************************************
+.ig
+Name: NHTOC
+Function: print a numbered header at the required level
+          and save the header number and page as string
+          variables, available to the user. Add the properly
+          indented entry to the table of contents.
+Inputs:
+        1 - level of the header, integer
+        2 - header number, string variable
+        3 - header page, string variable
+        4 - header name, text string
+..
+.de NHTOC
+.NH \\$1\"                       put the numbered header at its level
+\\$4\"                           heading name
+.IDX ".ds \\$2 \\*[SN-NO-DOT]\"  set the header number 
+.IDX ".ds \\$3 \\n[%]\"          set the page number of the header
+.XS\"                            add TOC entry with the header page,
+\h'\\$1-1'\\*[SN-DOT] \\$4\"     indented number and the name
+.XE\"                            end of TOC entry
+..
+.\"******************************************************************************
+.de XX
+.tm INDEX:\\$1\t\\n%
+..
+.\"******************************************************************************
+.de XR
+.tm INDEX:\\$1
+..

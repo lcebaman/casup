@@ -1,0 +1,31 @@
+#!/bin/bash --login
+#
+#$Id: template.arc.par.zpfem 175 2015-12-15 12:31:30Z mexas $
+#
+# Parallel script produced by bolt
+#        Resource: ARCHER (Cray XC30 (24-core per node))
+#    Batch system: PBSPro_select
+#
+# bolt is written by EPCC (http://www.epcc.ed.ac.uk)
+#
+#PBS -j oe
+#PBS -A e347
+#PBS -l select=4
+#PBS -l walltime=0:10:0
+#PBS -N zpfem
+
+module add PrgEnv-cray perftools craype-hugepages8M atp
+module list
+export XT_SYMMETRIC_HEAP_SIZE=700m
+export ATP_ENABLED=1
+export PGAS_MEMINFO_DISPLAY=1
+
+# resolve all symlinks to absolute paths
+export PBS_O_WORKDIR=$(readlink -f $PBS_O_WORKDIR)
+
+# Switch to current working directory
+cd $PBS_O_WORKDIR
+
+# Run the parallel program
+#aprun -n 24 -N 24 -S 12 -d 1 -T p12meshgen xx14_small
+aprun -n 96 -N 24 -S 12 -d 1 -T xx14 xx14_small

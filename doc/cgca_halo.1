@@ -1,0 +1,52 @@
+.\"$Id: ca.1 325 2016-08-24 09:39:24Z mexas $
+.NH 1
+Halo exchange
+.XS
+Halo exchange
+.XE
+.NH 2
+Global halo exchange
+.PP
+This is required if self-similar (or periodic) boundary
+conditions are preferred.
+Self-similar BC are probably more useful than
+fixed BC when grain statistics are important.
+For example, if fixed BC are used grains touching
+the boundary are not growing and evolving in the
+same way as grains which border only other grains.
+If sufficiently many grains are simulated, then
+self-similar BC improve grain size statistics.
+Otherwise the grains touching the model boundary
+must be excluded from the analysis.
+.PP
+Global halo exchange is more complex than local.
+.PP
+.NH 3
+2D planes
+.NH 3
+1D edges
+.PP
+.PS 6i
+copy "cgca0.pic"
+.PE
+The same diagram is used for exchanging edges
+along all three axes.
+The coord. systems in the middle are to help understand
+the array assignments.
+.PS 6i
+copy "cgca2.pic"
+.PE
+.PS 6i
+copy "cgca3.pic"
+.PE
+.NH 3
+Corners
+.LP
+.PS 6i
+copy "cgca1.pic"
+.PE
+.PP
+\caption{The same diagram is used for exchanging corners
+along all three axes.
+The coord. systems in the middle are to help understand
+the array assignments.}

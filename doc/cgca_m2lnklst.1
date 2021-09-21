@@ -1,0 +1,42 @@
+.\"$Id: cgca_m2lnklst.1 203 2016-01-29 12:46:59Z mexas $
+.NH 3
+.XN -N AAAQ -- Module \fCcgca_m2lnklst.f90\fP
+.PP
+Module with routines for creating and updating of a linked list.
+The module contains two derived types:
+.DS L
+.CW
+.pdfhref L -D AAAR -- cgca_lnklst_node
+.pdfhref L -D AAAS -- cgca_lnklst_tpayld
+.DE
+and the following routines: 
+.DS L
+.CW
+.pdfhref L -D AAAW -- cgca_addhead
+.pdfhref L -D AAAT -- cgca_addmiddle
+.pdfhref L -D AAAU -- cgca_inithead
+.pdfhref L -D AAAV -- cgca_lstdmp
+.pdfhref L -D AAAX -- cgca_rmhead
+.pdfhref L -D AAAY -- cgca_rmmiddle
+.DE
+.PP
+The list has to be established first with
+.CW
+.pdfhref L -D AAAU -- cgca_lnklst_inithead
+.R
+.bp
+.so cgca_node.1
+.bp
+.so cgca_payload.1
+.bp
+.so cgca_addhead.1
+.bp
+.so cgca_addmiddle.1
+.bp
+.so cgca_inithead.1
+.bp
+.so cgca_lstdmp.1
+.bp
+.so cgca_rmhead.1
+.bp
+.so cgca_rmmiddle.1

@@ -1,0 +1,47 @@
+digraph G {
+
+size="11,11"
+
+start [shape=circle, label="START"]
+inci [shape=box, label="inc i"]
+igtn [shape=diamond, label="i>N"]
+cellialive [shape=diamond, label="cell i alive?"]
+cellineigh [shape=diamond, label="cell i has >0 and \n <8 failed neighbours"] 
+rndneij [shape=box, label="RND neighbour j"]
+cjfail [shape=diamond, label="cell j failed"]
+veca [shape=box, label="vector a \n connecting i and j"]
+dotprod [shape=box, label="dot_product(a,n)"]
+oneminus [shape=diamond, label="1-dot_prod > RND"]
+cellif [shape=box, label="cell i \n marked failed"]
+end [shape=circle, label="END"]
+
+start -> inci
+inci:s -> igtn:n
+edge [label="yes"]
+igtn:w -> end
+edge [label="no"]
+igtn:e -> cellialive:n
+cellialive:e -> inci:e
+edge [label="yes"]
+cellialive:w -> cellineigh:n
+edge [label="no"]
+cellineigh:e -> inci:e
+edge [label="yes"]
+cellineigh:w -> rndneij:n
+edge [label=""]
+rndneij:s -> cjfail:n
+edge [label="no"]
+cjfail:e -> rndneij:e
+edge [label="yes"]
+cjfail:w -> veca:n
+edge [label=""]
+veca:s -> dotprod:n
+dotprod:s -> oneminus:n
+edge [label="no"]
+oneminus:e -> inci:e
+edge [label="yes"]
+oneminus:w -> cellif:n
+edge [label=""]
+cellif:s -> inci:e
+
+}

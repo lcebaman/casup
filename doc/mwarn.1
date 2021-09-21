@@ -1,0 +1,33 @@
+.\"$Id: mwarn.1 525 2018-03-19 21:54:26Z mexas $
+.NH 2
+Warning messages
+.XS
+Warning messages
+.XE
+.PP
+Warning messages start with
+.CW WARN: .
+These messages are intended to warn the user
+of unexpected input, undesirable settings,
+unexpected, but not fatal, runtime conditions, etc.
+Example:
+.DS L
+.CW
+WARN: cgca_gcr: image 1144: No match found for given pair: 3904 2126.
+WARN: cgca_nr: too many nuclei - no physical sense! nuclei/model size:  0.683E+06
+.DE
+The user generally does not have the control
+over warning messages.
+These are issued based on the logic of the
+CASUP library.
+It is up to the user what action to take
+on encountering one of the warning messages.
+Some warnings might safely be ignored.
+Other warnings, such as the second warning above,
+might indicate that the
+results have no physical sense.
+The user can then decide to terminate the analysis
+early, change the input values and rerun.
+Yet other warnings might indicate unexpected
+conditions demanding further investigation,
+e.g. the first warning above.

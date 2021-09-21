@@ -1,0 +1,2 @@
+#$Id: archer.bolt 190 2015-12-15 21:39:52Z mexas $
+bolt -n64 -t0:10:0 -j testAAB -o zzz "./testAAB.x 4 4 >& out"

@@ -1,0 +1,89 @@
+#*robodoc*b* CGPACK/Makefile-ifort
+#  NAME
+#    Makefile-ifort
+#  SYNOPSIS
+
+#$Id: Makefile-ifort 525 2018-03-19 21:54:26Z mexas $
+
+FC=		ifort
+
+#  PURPOSE
+#    Build/install CGPACK on the University of Bristol BlueCrystal computer
+#    with Intel Fortran compiler.
+#  AUTHOR
+#    Anton Shterenlikht
+#  COPYRIGHT
+#    See LICENSE
+#  NOTES
+#    CGPACK uses parallel HDF5, NetCDF and NetCDF-Fortran libraries.
+#    Make sure these are installed. Either the include path must
+#    point to the location of their *mod files, or copy the *mod
+#    files into another convenient location.
+#    I do the first here.
+#
+#    According to Intel, when mixing MPI with coarrays, the
+#    easiest approach is to build the coarray library with
+#    "-coarray=single", and let the MPI parts of the program
+#    set up the MPI environment. See also:
+#    https://software.intel.com/en-us/forums/topic/559446
+#  SOURCE
+
+FFLAGS=		-c -assume realloc_lhs -free -fPIC \
+		-debug full -traceback -warn all -O2 -qopt-report \
+		-coarray=distributed
+# -coarray-config-file=xx14.conf \
+#		-I$(HOME)/soft/hdf5-1.10.1-ifort16u2-install/include \
+#		-I$(HOME)/soft/netcdf-fortran-4.4.4-ifort-install/include 
+#-std08 #-warn stderrors
+
+CGPACK=		cgpack
+MYLIB=		lib$(CGPACK).a
+LIBDIR=		$(HOME)/lib
+MODDIR=		$(HOME)/include
+
+SRC=		cgca_m1clock.f90 cgca_m1co.f90 cgca_m2alloc.f90 cgca_m2gb.f90 \
+		cgca_m2geom.f90 cgca_m2glm.f90 cgca_m2hx.f90 \
+		cgca_m2lnklst.f90 cgca_m2mpiio.f90 \
+		cgca_m2out.f90 \
+		cgca_m2pck.f90 cgca_m2phys.f90 cgca_m2red.f90 cgca_m2rnd.f90 \
+		cgca_m2rot.f90 cgca_m2stat.f90 \
+		cgca_m3clvg.f90 cgca_m3gbf.f90 \
+		cgca_m3nucl.f90 cgca_m3pfem.f90 cgca_m3sld.f90 cgca_m4fr.f90 \
+		m2hx_hxir.f90 \
+ m3clvg_sm1.f90 m3clvg_sm2.f90 m3clvg_sm3.f90 \
+		m3sld_sm1.f90 m3sld_hc.f90 m3pfem_sm1.f90 \
+		cgca.f90
+#		m2out_sm2_mpi.f90 - MPI routines
+# cgca_m2netcdf.f90 \
+#cgca_m2hdf5.f90
+		# cgca_m3clvgt.f90 # - broken, does not build
+		# m2out_sm1.f90 # - Cray only
+		# m3clvgt_sm1.f90 # - broken, does not build
+OBJ=		$(SRC:.f90=.o)
+OPTRPT=		$(SRC:.f90=.optrpt)
+MOD=		cgca*.mod
+SMOD=		cgca*.smod
+
+.SUFFIXES:
+.SUFFIXES:	.f90 .o
+
+all:		$(OBJ) $(MYLIB)
+
+.f90.o:
+	$(FC) $(FFLAGS) $<
+
+$(MYLIB): $(OBJ)
+	ar -r $(MYLIB) $(OBJ)
+
+install: $(MYLIB)
+	cp $(MYLIB) $(LIBDIR)
+	cp $(MOD) $(SMOD) $(MODDIR)
+
+deinstall:
+	cd $(LIBDIR) && rm $(MYLIB)
+	cd $(MODDIR) && rm $(MOD) $(SMOD)
+
+clean:
+	rm $(MOD) $(SMOD) $(OPTRPT) $(OBJ) $(MYLIB)
+
+#*roboend*

@@ -1,0 +1,154 @@
+\section{\texttt{CG\_CLVG}: cleavage propagation
+through CA array}
+
+\label{sec:cg_clvg}
+
+\subsection{Purpose}
+
+The aim of this routine is to propagate a cleavage
+crack through the CA array.
+
+\subsection{See also}
+
+\hyperref[sec:cg_cpp]{\texttt{CG\_CPP}} 
+
+\subsection{Interface}
+
+\begin{verbatim}
+
+! IN: ITERS - INTEGER, HOW MANY ITERATIONS OF FRACTURE PROPAGATION TO DO
+!       SP1 - REAL, MAX PRINCIPAL STRESS VALUE
+!       SPV - VECTOR IN THE DIRECTION OF THE MAX PRINCIPAL STRESS
+!   SLFSMLR - IF .TRUE., ENFORCE SELF-SIMILAR BOUNDARY CONDITIONS
+!     DEBUG - LOGICAL. IF .TRUE., WILL DUMP *LOTS* OF DEBUG OUTPUT
+! OUT: ERRSTAT - 0 IF SUCCESS, NON-ZERO IF A PROBLEM
+!  
+!**********************************************************************73
+!  
+! ONELINE: TRANSGRANULAR CLEAVAGE PROPAGATION
+!     
+!**********************************************************************73
+ 
+ SUBROUTINE CG_CLVG(ITERS,SP1,SPV,SLFSMLR,DEBUG,ERRSTAT)
+
+ USE CG_MOD
+ IMPLICIT NONE
+
+ INTEGER,INTENT(IN) :: ITERS
+ REAL(KIND=8),INTENT(IN) :: SP1,SPV(3)
+ LOGICAL,INTENT(IN) :: SLFSMLR,DEBUG
+ INTEGER,INTENT(OUT) :: ERRSTAT
+
+\end{verbatim}
+
+\subsection{Details}
+
+We base our ideas on fracture on books like \cite{averbach1959}
+
+The basic ideas are:
+
+\begin{itemize}
+
+\item
+
+Just as with solidification, scan through alive (un-fractured cells).
+
+\item
+
+A crack will grow when alive cell will acquire state ``fractured''.
+
+\item
+
+There must be a distinction between crack front, which can grow,
+and crack flanks, which can't grow.
+
+\item
+
+The process must be probabilistic, with the probability of cleavage
+propagating depending on the direction of the maximum principal
+stress, and the location within the crack (front vs flanks).
+
+\end{itemize}
+
+These ideas lead to the cleavage modelling flowchart, shown
+in Fig. \ref{fig:cl:fc}
+
+\begin{figure}[htb]
+\centering
+\includegraphics[height=0.9\textheight]{./cleavage-fc.pdf}
+\caption{Flowchart of cleavage modelling in
+\hyperref[sec:cg_clvg]{\texttt{CG\_CLVG}} 
+.}
+\label{fig:cl:fc}
+\end{figure}
+
+We now describe the flowchart from top to bottom.
+
+Scan through all cells in a CA array. $i$ is the index of the
+current cell. At \texttt{START} of each iteration, increment $i$.
+If $i>N$, where $N$ is the total number of cells in the array,
+then there are no more cells, so this is the \texttt{END} of the process. 
+
+If $i\le N$, then make sure cell $i$ is alive (remember we scan
+through alive cells!). If not, then get back to the beginning
+and start next iteration, increment $i$.
+
+If cell $i$ is alive,
+then make sure it's at the crack flank.
+We use a number of neighbouring failed cells as the criterion
+for this. The idea is that alive cell touching a crack front
+will have few failed cells. When alive cell touches crack
+flank, it will have lots of failed cells. At present we set
+the threshold at 8 failed cells. This is based on a $3\times3=9$ cell
+square - one plane of a $3\times 3 \times 3$ neighbourhood.
+If alive cell is touching a crack flank, it is likely to 
+have $\geq 9$ failed neighbours.
+
+If cell $i$ is not at crack tip, go to the beginning, increment
+$i$, and start next iteration.
+
+Randomly choose a failed cell $j$ from the neighbourhood of cell $i$.
+(Note that in solidification we did not worry about a specific
+state of a neighbouring cell. However, the physical origins of
+cleavage lead to the idea that, once started to propagate, a fast running
+cleavage crack is extremely likely to continue to run, until
+the catastrophic fracture results, or until the crack driving
+force falls dramatically. This means we don't want to allow
+copying of ``alive'' to ``alive'', because this will slow
+down the propagation rate and will make modelling of cleavage
+propagation at real time speeds hard.)
+
+Once a failed cell $j$ has been identified, calculate
+the unit vector from $i$ to $j$, let's call it $\vec{a}$.
+
+Then do a dot product of $\vec{a}$ and the unit vector
+showing the direction of the maximum principal stress,
+$\vec{n}$. The dot product is 1 if the vectors are parallel,
+and 0 if they are normal. This means we can use
+$1-\texttt{dot product}(a,n)$ as a probability of cleavage.
+The probability is high if the dot product is close
+to 0, and low if the dot product is close to 1.
+
+The curve is shown in Fig. \ref{fig:cl:prob}
+
+\begin{figure}[htb]
+\centering
+\includegraphics[width=1.3\textwidth]{./cleavage1.pdf}
+\caption{Probability of cleavage as a function of the
+dot product of the normal vector and the direction vector for
+the chosen cell, $n\cdot a$. Factor $N$ is varied from
+1 to 10, with the highest $N$ giving the highest gradient.}
+\label{fig:cl:prob}
+\end{figure}
+
+We take another random number, \texttt{RND}, in the interval [0\ldots 1).
+Finally we check that  $1-\texttt{dot product}(a,n) < \texttt{RND}$.
+If true, then cell $i$ becomes ``failed''.
+Looking at Fig. \ref{fig:cl:prob} an angle of 80$^\circ$
+gives $>80$\% probability of cleavage; an angle of 60$^\circ$
+degrees gives about 50\% probability of cleavage; and for
+an angle of 40$^\circ$ the probability of cleavage
+drops to about 20\%. Of course, the shape of this curve,
+and therefore the probabilities, can be changed in future.
+
+Then new iteration starts.

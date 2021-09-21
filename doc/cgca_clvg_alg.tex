@@ -1,0 +1,465 @@
+\section{Cleavage algorithm}
+
+A grain (crystal) is described by its rotation
+tensor, $\tenrtwo{R}^c$, with the usual meaning:
+a vector in the crystal coord. system, $x^c$,
+is transformed into a vector in spatial (cellular) coord. system,
+$x^s$, as
+
+\begin{equation}
+ x^{s}
+  =
+   \tenrtwo{R}^{c} \cdot x^{c}
+ \label{eq:cgca:pub}
+\end{equation}
+
+It is assumed that the cleavage is controlled by
+$\sigma_1$, the max principal stress.
+If $\sigma_1^s$ is the max principal stress vector
+in the spatial coord. system, then
+$\sigma_{1}^{c} = \tenrtwo{R}^{s} \cdot \sigma_{1}^{s}$
+is the max principal stress vector in the crystal
+coord. system.
+Here:
+
+\begin{equation}
+ \tenrtwo{R}^{s}
+ \equiv
+ \tenrtwo{R}^{-c}
+  \equiv
+   \left (
+           \tenrtwo{R}^{c}
+   \right)^{-1}
+    \equiv
+     \left (
+             \tenrtwo{R}^{c}
+     \right)^{T}
+\label{eq:cgca:wonk}
+\end{equation}
+
+Each crystal plane, \{hkl\}, has a partucular
+surface energy, $\gamma_{hkl}$.
+We postulate that the work of cleavage
+is equal to the surface energy.
+The work of cleavage is $\sigma_{hkl}$ times the distance necessary
+to break the atomic bonds.
+Following the ideas of \cite{gilman1959},
+we take this distance equal to $a_0$, the
+relaxation distance, which is the atom
+diameter in the cleavage plane.
+So the cleavage condition will be
+
+\begin{equation}
+ \sigma_{hkl}
+   a_0
+    =
+     \gamma_{hkl}
+\label{eq:cleav}
+\end{equation}
+
+from which the stress required to
+cleave \{hkl\} plane is
+
+\begin{equation}
+ \sigma_{hkl}
+  =
+   \frac{ \gamma_{hkl}} { a_0}
+\label{eq:muk}
+\end{equation}
+
+From \cite{gilman1959}, $\gamma_{100}$=1440,
+$\gamma_{110}$=1710 and $\gamma_{111}$=5340erg/cm$^2$
+(1erg/cm$^2$ = 10$^{-3}$J/m$^2$) and
+$a_0=1.37 \times 10^{-10}$m.
+This gives:
+$\sigma_{100}=1.05 \times 10^4$MPa,
+$\sigma_{110}=1.25 \times 10^4$MPa,
+$\sigma_{111}=4.90 \times 10^4$MPa.
+These values must be scaled, of course, because
+the CA model is not on the atomic scale and because
+material imperfections lower these stresses dramatically.
+Anyway, the important factor is that we can differentiate
+between different cleavage planes based on their
+surface energies.
+
+In BCC crystals there are 24 symmetric rotation tensors,
+$\tenrtwo{R}_{sym}^{1\ldots 24}$,
+including the identity tensor, 
+So, if $n_{hkl}$ is a unit normal vector to some \{hkl\} plane,
+then $n_{hkl}^{1\ldots 24} = 
+\tenrtwo{R}_{sym}^{1\ldots 24} \cdot n_{hkl}$ are 24 normal
+vectors describing all planes of the same class.
+
+It is useful to split the maximum principal stress vector,
+$\sigma_{1}^{c}$, into the magnitude, $||\sigma_{1}^{c}||$,
+and the unit direction vector, $e_\sigma$:
+$\sigma_{1}^{c} = ||\sigma_{1}^{c}|| e_\sigma$.
+
+The maximum principal stress resolved to a \{hkl\} plane
+is $S^{hkl} = ||\sigma_{1}^{c}|| e_\sigma \cdot n_{hkl}$.
+
+Finally, because for cleavage analysis we are looking
+for the weakest planes, we want to choose those planes
+which maximise $S^{hkl}$, i.e.
+
+\begin{equation}
+ S^{hkl}
+  =
+   ||\sigma_{1}^{c}||
+    \max
+     \left|
+       e_\sigma \cdot n_{hkl}^{1\ldots 24}
+     \right|
+\label{eq:hok}
+\end{equation}
+%
+where the only planes under consideration
+are \{100\}, \{110\} and \{111\}, although the surface
+energy of \{111\} planes is so high that it is practically
+impossible to cleave those.
+Even if $e_\sigma \cdot n_{111}=1$, the resolved stress
+on \{110\} plane will still be higher, and the cleavage
+is likely to occur on \{110\}.
+In addition to finding three maximum $S^{hkl}$ values,
+one for each \{hkl\} orientation, we need to store
+the three corresponding normal vectors, which
+maximise the stress, $n_{hlk}^{max}$.
+
+From \eqref{eq:muk} cleavage will occur when
+$S^{hkl} \ge \gamma_{hlk}/a_0$.
+For the algorithm it is useful to define:
+$p^{100}=S^{100}/(\gamma^{100}/a_0)$,
+$p^{110}=S^{110}/(\gamma^{110}/a_0)$,
+$p^{111}=S^{111}/(\gamma^{111}/a_0)$
+and 
+$p_{max}=\max( p^{100}, p^{110}, p^{111})$.
+
+The first part of the cleavage algorithm
+can be thus summarised as follows:
+
+\begin{algorithm}[H]
+\SetAlgoLined
+%\SetKwData{And}{and}
+\SetKwInOut{Input}{input}
+\SetKwInOut{Output}{output}
+
+\Input{ $\sigma_{1}^s$, $\tenrtwo{R}^c$ }
+\Output{ $p^{100}$, $p^{110}$, $p^{111}$, $p^{max}$,
+ $n_{100}^{max}$, $n_{110}^{max}$, $n_{111}^{max}$ }
+\BlankLine
+$\sigma_{1}^{c} = (\tenrtwo{R}^c)^T \cdot \sigma_1^s$\;
+$ S^{100} = ||\sigma_{1}^{c}||
+  \max \left| e_\sigma \cdot n_{100}^{1\ldots 24}
+     \right|$; $n_{100}^{max}$ \;
+$ S^{110} = ||\sigma_{1}^{c}||
+  \max \left| e_\sigma \cdot n_{110}^{1\ldots 24}
+     \right|$; $n_{110}^{max}$ \;
+$ S^{111} = ||\sigma_{1}^{c}||
+  \max \left| e_\sigma \cdot n_{111}^{1\ldots 24}
+     \right|$; $n_{111}^{max}$ \;
+$p^{100}=S^{100}/(\gamma^{100}/a_0)$ \;
+$p^{110}=S^{110}/(\gamma^{110}/a_0)$ \;
+$p^{111}=S^{111}/(\gamma^{111}/a_0)$ \;
+$p_{max}=\max( p^{100}, p^{110}, p^{111})$\;
+\caption{
+Cleavage algorithm, calculating max resolved
+stress}
+\label{algo:clvg1:p}
+\end{algorithm}
+
+There are special cell states representing
+cleavage cracks on \{100\}, \{110\}, \{111\} planes,
+$s_{100}$, $s_{110}$, $s_{111}$.
+We call the set of all these states {\em cleavage states},
+$s_c=[s_{100}, s_{110}, s_{111}]$.
+
+Finally, we can decide whether cleavage will happen,
+and if so, on which plane.
+The algorithm can be constructed as follows.
+The outputs are the unit vector, $n^s$, normal to the
+active cleavage plane, in the spatial coord. system,
+and the cleavage cell state, $s$.
+The vector $n^c$ is first calculated in the grain
+coord. sys. and then rotated to the spatial coord. sys.,
+$n^s$.
+
+\begin{algorithm}[H]
+\SetAlgoLined
+%\SetKwData{And}{and}
+\SetKwInOut{Input}{input}
+\SetKwInOut{Output}{output}
+
+\Input{ $p^{100}$, $p^{110}$, $p^{111}$, $p_{max}$,
+ $n_{100}^{max}$, $n_{110}^{max}$, $n_{111}^{max}$ }
+\Output{ $n^s$, $s$, flag }
+\BlankLine
+{$n^s$=(0,0,0), $s=0$, flag=FALSE}\;
+\If{$p_{max} \ge 1$}{
+flag=TRUE\;
+cleavage on \{100\}, $n^c=n_{100}^{max}$, $s=s_{100}$\;
+\If{$p^{110} > p^{100}$}{
+cleavage on \{110\}, $n^c=n_{110}^{max}$, $s=s_{110}$\;
+}
+\If{$p^{111} > p^{100}$ and
+    $p^{111} > p^{110}$}{
+cleavage on \{111\}, $n^c=n_{111}^{max}$, $s=s_{111}$\;
+}
+$n^s = \tenrtwo{R}^c \cdot n^c$\;
+}
+\caption{
+Cleavage algorithm, calculating
+the cleavage plane}
+\label{algo:clvg1:n}
+\end{algorithm}
+
+So now we know the cleavage vector, $n$,
+in the spatial coord. system
+and the cleavage type (state), $s$.
+This is all that is required to propagate a
+type $s$ crack through the cellular automata.
+
+\subsection{Cleavage representation in the cellular model}
+
+Imagine that some cells with states
+of the $s_c$ set are
+randomly scattered across the model.
+We call these {\em crack nuclei}.
+The model is subjected to some max. principal
+stress vector, $\sigma^1$.
+The question we want answered is this:
+how will the cracks grow from the nuclei?
+
+One possibility is to analyse each 
+crack edge cell.
+Importantly, this immediately leads to the
+need to have two coarrays, one for storing
+grain numbers, and another for storing
+fracture states of cells.
+By analysing both arrays together one
+can know what grain a given fractured
+cell belongs.
+As shown in Sec. \ref{sec:space:coarray},
+we implement this by using a 4D coarray.
+
+We scan over all undamaged cells.
+If there is a cleaved neighbour,
+such that the vector connecting the
+cleaved and the central cells is on
+or near the cleavage plane, then the
+state of the central cell is changed
+to the given cleavage state.
+Note that it is possible that the given
+cleavage state and the neighbour cleavage
+state will differ.
+The algorithm is summarised as follows:
+
+\begin{algorithm}[H]
+\SetAlgoLined
+%\SetKwData{And}{and}
+\SetKwInOut{Input}{input}
+\SetKwInOut{Output}{output}
+
+\Input{ $n^s$, $s$, threshold }
+\Output{cell state change}
+\BlankLine
+ \For { i=1,26 } {
+  \If { $i$th cell is cleaved } {
+   $e_i$ is a unit vector from
+    the central cell to $i$th cell\;
+   \If { $|e_i \cdot n^s| <$ threshold } {
+    central cell state is changed to $s$\;
+    exit\;
+   }
+  }
+ }
+\caption{
+Cleavage algorithm, propagating cleavage
+crack through the cellular model.
+}
+\label{algo:clvg2}
+\end{algorithm}
+
+According to \cite{shterenlikht2013c},
+if the threshold is 0.1733, then there will
+always be at least 2 cells close enough
+to the cleavage plane, so that they can
+be considered cleaved.
+However, this is probably unsatisfactory,
+as the crack will propagate as just a straight
+line in this case, not as a 2D plane.
+So, perhaps the threshold must be lifted so
+that there are at least 4 cells on the cleavage
+plane in all cases.
+
+The above algorithm will change state only of the
+neighbouring cells.
+Thus the speed of crack propagation is 1 cell/increment.
+
+\subsection{Open questions}
+
+Now the really hard bit: somebody must deside how often
+to run the first part of the algorithm, i.e.
+$(\sigma_1^s) \to (n^s,s)$.
+In other words, some decision must be made regarding
+how fast $\sigma_1^s$ might be changing, therefore
+how often to recalculate the $n^s,s$ pair.
+
+Equally crucial: how large an area of the complete
+cellular model is subjected to the same $\sigma_1^s$?
+Is it always the whole model?
+Is it some small region of the complete cellular model?
+
+These questions are the key for designing a parallel
+algorithm.
+Is each image using the same $\sigma_1^s$, or
+separate?
+
+For now I make a massive assumption that the complete
+cellular model is always subjected to the same
+macroscopic $\sigma_1^s$.
+This means that all images use the same $\sigma_1^s$.
+
+The cleavage algorithms are implemented as purely
+serial routines.
+Some parallel driver routines will have to go on top. 
+A prototype algorithm, executed by each image, is as follows:
+
+\begin{algorithm}[H]
+\SetAlgoLined
+%\SetKwData{And}{and}
+\SetKwInOut{Input}{input}
+\SetKwInOut{Output}{output}
+
+\Input{cellular array, $\tenrtwo{R}^c$ array}
+\Output{possible cell state change to cleaved}
+\BlankLine
+\texttt{old state} = liquid\_state\;
+\For { all cells }{
+pick cell i\;
+read its grain state, \texttt{new state}\;
+\If { grain of cell i is intact }{
+ \If { \texttt{new state} $\ne$ \texttt{old state} }{
+  run algs. \ref{algo:clvg1:p} and
+   \ref{algo:clvg1:n}: $n^s$, $s$, flag\;
+  \texttt{state old = state new} \; 
+ }
+ \If { flag = TRUE }{
+  run alg. \ref{algo:clvg2}: change state
+   of cell $i$ to $s$\;
+ }
+}
+}
+\caption{
+Complete cleavage algorithm, top level view.
+}
+\label{algo:clvg:top}
+\end{algorithm}
+
+Note that the \texttt{new state} $\ne$
+\texttt{old state} check
+is intended for crossing the grain
+boundary.
+Because the grain orientation has changed,
+the algs. \ref{algo:clvg1:p} and
+\ref{algo:clvg1:n} have to be rerun,
+and the new $n^s$, $s$ and flag need
+to be calculated.
+However, this algorithm completely ignores
+that fracture across a grain boundary
+is much more complex.
+
+\subsection{Crossing grain boundary}
+
+For a review of the state-of-art
+at the beginning of the centry refer, e.g.
+to \cite{gerberich2003v8}, specifically
+chapters \cite{gerberich2003},
+\cite{gerberich2003a}, \cite{milligan2003} and in particular
+\cite{tan2003}.
+A more fundamental and older account
+can be found in \cite{liebowitz1968},
+specifically chapters \cite{thomson1968},
+\cite{bilby1968} and particularly \cite{beachem1968}.
+
+One major problem of a cellular
+approach is that this is a local
+approach.
+It is very hard to model planes or
+other global geometrical entities.
+Hence the models of the type used
+in \cite{smith2012} can deal with crossing
+of the grain boundary easier.
+In such geometrical (global) models
+the process is simple: as soon as a
+cleavage crack reaches a grain boundary
+at some spatial point, a cleavage plane
+in the following grain is fully determined,
+thus allowing for the analysis of the
+fracture of the boundary fragment
+defined by the grain boundary plane
+and by the two cleavage planes in both
+grains.
+In contrast, in a cellular (local) model,
+there is no global cleavage plane defined
+in a grain.
+When each new cell is analysed, it has
+a chance of propagating cleavage into
+a neighbouring grain, and hence starting
+another cleavage plane.
+If left unchecked, this process quickly
+leads to the bulk of the model being
+populated with cleaved cells.
+Such model is, of course, not physical.
+
+Note that the geometrical model is not
+physical either.
+It simply looks at the final result of
+the cleavage propagation and tries to
+reproduce it.
+It is doubtful that the physical reality
+of cleavage propagation is close to
+the global geometrical view.
+
+Anyway, in a cellular model some extra
+criteria has to be added to prevent
+proliferation of new cleavage cracks
+at the boundary.
+We introduce another logical array,
+which records the status of crack
+crossing the boundary between any
+two grains.
+In an undamaged model, this array
+is \texttt{.FALSE.} everywhere.
+When the cleavage crack crosses a grain
+boundary between grains A and B,
+then the corresponding entry in this
+array
+is changed to \texttt{.TRUE.}.
+
+In addition, a new failure state is
+added: \texttt{state\_gb\_failed}.
+
+Cells on the grain boundary are cells that
+have neighbours from more than 1 grain,
+e.g. grains A and B.
+Such cells can fail if (a) the crack propagation
+status between A and B is \texttt{.FALSE.}
+or (b)
+if the crack propagation status is \texttt{.TRUE.}
+and the central cell has a neighbour of the type
+\texttt{state\_gb\_failed}.
+The first case corresponds to the cleavage
+crack propagating from one grain to another by
+crossing the grain boundary.
+The second case corresponds to the failure of the
+grain boundary itself.
+This algorithm is surely artificial, however,
+I don't know how the actual physical process
+takes place.
+
+In this algorithm there is only one cleavage
+plane generated in a grain from a particular
+boundary.
+However, it is still possible to have multiple
+cleavage cracks in a grain if another cleavage
+crack starts to propagage from another boundary.

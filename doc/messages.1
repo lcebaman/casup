@@ -1,0 +1,81 @@
+.\"$Id: messages.1 525 2018-03-19 21:54:26Z mexas $
+.NH 1
+Messages
+.XS
+Messages
+.XE
+.PP
+CASUP design assumes that routines might need
+to pass messages to the user.
+There are four levels of user messages:
+.IP 1.
+information
+.IP 2.
+warning 
+.IP 3.
+error 
+.IP 4.
+debugging
+.PP
+Each message is written to stdout as a single line of text.
+Some messages can be long, so they might wrap when
+viewed in some editors.
+The decision not to break a message into multiple
+one-line chunks was taken to simplify searching for
+messages, e.g. with
+.CW grep .
+Having a message written as a single line makes
+searching for the complete message easier.
+.PP
+The first field in all messages is a label showing
+the level of the message, followed by a colon,
+.CW : ,
+exactly one of:
+.CW INFO: ,
+.CW WARN: ,
+.CW ERROR: or
+.CW DEBUG: .
+The standard labels are used to search for a particular
+type of messages.
+For example to check if there are any warnings issued
+by the program the user can use this command:
+.DS L
+\fCgrep WARN \fP<\fIoutfile\fP>.
+.DE
+or
+.DS L
+\fCgrep "^WARN:" \fP<\fIoutfile\fP>
+.DE
+or to see all debugging output, the user can issue this
+command:
+.DS L
+\fCgrep DEBUG: \fP<\fIoutfile\fP>
+.DE
+or
+.DS L
+\fCgrep "^DEBUG" \fP<\fIoutfile\fP>
+.DE
+.PP
+The second field in all messages is the name of the
+routine that issued that message, followed by a colon,
+.CW : ,
+e.g.
+.CW cgca_clvgsd: ,
+.CW cgca_nr: ,
+etc.
+.PP
+Colons are used to help separate the messages into
+fields, with tools such as
+.CW awk .
+.PP
+The third field is the content of the message.
+This field is not standardised and will
+differ from one routine to another, hopefully
+giving the user some helpful information.
+.PP
+Some messages will contain the number of
+the image that issued the message.
+.so minfo.1
+.so mwarn.1
+.so merr.1
+.so mdebug.1

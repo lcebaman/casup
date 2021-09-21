@@ -1,0 +1,36 @@
+.\"$Id: merr.1 525 2018-03-19 21:54:26Z mexas $
+.NH 2
+Error messages
+.XS
+Error messages
+.XE
+.PP
+Error messages start with
+.CW ERROR: .
+.PP
+CASUP was designed to treat all
+errors as fatal.
+In fact all error conditions are implemented with
+.CW ERROR
+.CW STOP
+Fortran 2008 intrinsic which initiates error
+termination.
+The program is expected to exit as soon as possible.
+Therefore it is expected that there will not be
+more than a single error message issued by any
+CASUP program.
+This means that searching for error messages might
+not be needed.
+.PP
+Typical conditions resulting in the issuing of
+error messages, e.g. in error termination, are
+insufficient memory when
+allocating arrays or conditions which violate
+the model logic, e.g. passing non-existent
+grain numbers or image numbers.
+Examples:
+.DS L
+.CW
+ERROR: cgca_dv: cannot deallocate coarray
+ERROR: cgca_gc: coarray not allocated, img: 17
+.DE

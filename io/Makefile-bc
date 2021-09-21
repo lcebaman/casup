@@ -1,0 +1,35 @@
+MF=		Makefile
+FC=		mpif90
+FFLAGS=
+LFLAGS=
+EXESRC=		cafio.f90
+SRC=		cafmpiio.f90 cafclock.f90 cafserialio.f90
+PBS_SCRIPT=	z.pbs
+
+#
+# No need to edit below this line
+#
+
+.SUFFIXES:
+.SUFFIXES: .f90 .o
+
+EXEOBJ=	$(EXESRC:.f90=.o)
+EXE=	$(EXESRC:.f90=.x)
+OBJ=	$(SRC:.f90=.o)
+
+.f90.o:
+	$(FC) $(FFLAGS) -c $<
+
+all:	$(EXE)
+
+$(EXE):	$(OBJ) $(EXEOBJ)
+	$(FC) $(FFLAGS) -o $@ $(EXEOBJ) $(OBJ) $(LFLAGS)
+
+$(OBJ):	$(MF)
+$(EXEOBJ): $(MF) $(OBJ)
+
+clean:
+	rm -f $(OBJ) $(EXE)
+
+tar:
+	tar -cjf cafio.tbz $(MF) $(EXESRC) $(SRC) $(PBS_SCRIPT) 

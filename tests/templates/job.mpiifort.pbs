@@ -1,0 +1,32 @@
+#!/bin/bash --login
+#$Id: job.mpiifort.pbs 407 2017-05-16 15:23:59Z mexas $
+#
+# mpiifort on PBS
+#
+# submit with e.g.
+#   qsub -q testq -j oe -l walltime=00:10:00,nodes=2:ppn=16 job
+
+# Load the Intel module
+module add languages/intel-compiler-16-u2
+module list
+
+# Set some helpful vars
+EXE=testABW.x
+CACONF=xx14.conf
+CONFILE=nodes
+
+# Switch to current working directory
+cd $PBS_O_WORKDIR
+
+# Prepare the MPI machine file and calculate the number of procs
+cat $PBS_NODEFILE > $CONFILE
+NNODES=`cat $PBS_NODEFILE | wc -l`
+
+# Prepare conf file
+echo -genvall -genv I_MPI_DEBUG=2 -genv I_MPI_FABRICS=shm:dapl \
+ -machinefile ./$CONFILE -n $NNODES ./$EXE > $CACONF
+
+# Run
+echo "START:" `date`
+./$EXE
+echo "END:  " `date`

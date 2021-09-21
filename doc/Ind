@@ -1,0 +1,1275 @@
+%D 2016
+%B PPoPP, 21st ACM SIGPLAN Symposium on Principles and
+Practice of Parallel Programming, Barcelona, Spain, March 12-16
+%O http://conf.researchr.org/home/PPoPP-2016
+
+%D 2015
+%A A. Turner
+%T Parallel software usage on UK national HPC facilities 2009-2015: How
+well have applications kept up with increasing parallel hardware?
+%O archer.ac.uk/documentation/white-papers/app-usage/UKParallelApplications.pdf
+
+%D 2015
+%A G. Mozdzynski \fIet al\fP
+%J Int. J. High Perf. Comp. Appl.
+%P 1-13
+%O DOI: 10.1177/1094342015576773
+
+%D 2015
+%A A. Shterenlikht
+%A L. Margetts
+%A L. Cebamanos
+%A D. Henty
+%T Fortran 2008 coarrays
+%J ACM SIGPLAN Fortran Forum
+%V 34
+%P 10-30
+%O DOI: 10.1145/2754942.2754944
+
+%D 2015
+%A A. Shterenlikht
+%A L. Margetts
+%T Three-dimensional cellular automata modelling
+of cleavage propagation across crystal boundaries
+in polycrystalline microstructures
+%J Proc. Roy. Soc. A
+%V 471
+%P 20150039
+%O DOI: 10.1098/rspa.2015.0039
+
+%D 2015
+%A A. Shterenlikht \fIet al\fP
+%O accepted for SHOCK15 APS conf.
+
+%D 2015
+%A J. A. Rodriguez-Martinez \fIet al\fP
+%J Mech. of Materials
+%V 81
+%P 41-55
+
+%D 2015
+%A P. R. M. van Beers \fIet al\fP
+%J Acta Mat.
+%V 82
+%P 513-529
+
+%D 2014
+%A C. Yang \fIet al\fP
+%B Proc. 19th ACM SIGPLAN Symposium on Principles
+and Practice of Parallel Computing, PPoPP, 15-19 February 2014,
+Orlando, Florida, USA
+%P 81-92
+%O DOI: 10.1145/2555243.2555270
+
+%D 2014
+%A A. Fanfarillo
+%T Coarrays in GNU Fortran
+%O http://opencoarrays.org/yahoo_site_admin/assets/docs/Coarrays_GFortran.217135934.pdf
+
+%D 2014
+%A I. D. Chivers
+%A J. Sleightholme
+%T Compiler support for the Fortran 2003 and 2008 standards
+%J ACM Fortran Forum
+%C revision 15
+%V 33
+%N 2
+%P 38-51
+
+%D 2014
+%A A. D. Resnyansky \fIet al\fP
+%J J. Appl. Phys.
+%V 116
+%P 223502
+%O DOI: 10.1063/1.4903817
+
+%D 2014
+%A E. Maire
+%A P. J. Withers
+%J Int. Materials Rev.
+%V 59
+%P 1-43
+
+%D 2014
+%A I. M. Smith
+%A D. V. Griffiths
+%A L. Margetts
+%T Programming the finite element method
+%C 5ed
+%I Wiley
+
+%D 2014
+%A T. L. Burnett \fIet al\fP
+%J Scientific Reports
+%V 4
+%P 4711
+
+%D 2014
+%A Y. Rotbaum
+%A D. Rittel
+%J Exp. Mech.
+%V 54
+%P 1205-1214
+
+%D 2014
+%A C. C. Tasan \fIet al\fP
+%J Int. J. Plast.
+%V 63
+%P 198-210
+
+%D 2014
+%A C. C. Tasan \fIet al\fP
+%J Acta Mat.
+%V 81
+%P 386-400
+
+%D 2014
+%A J. E. Darnbrough
+%A P. E. J. Flewitt
+%J Acta Mat.
+%V 79
+%P 421-433
+
+%D 2014
+%A E. Bosco \fIet al\fP
+%J Comp. Mech.
+%V 54
+%P 299-319
+
+%D 2014
+%A D. A. Reed
+%A J. Dongarra
+%T Exascale computing and bid data: the next frontier
+%O http://netlib.org/utk/people/JackDongarra/PAPERS/Exascale-Reed-Dongarra.pdf
+
+%D 2014
+%A M. Tartibi
+%A D. J. Steigmann
+%A K. Komvopoulus
+%J Comput. Mech.
+%V 54
+%P 1375-1394
+
+%D 2014
+%A A. Fanfarillo
+%A T. Burnus
+%A S. Filippone
+%A V. Cardellini
+%A D. Nagle
+%A D. W. I. Rouson
+%T OpenCoarrays: open-source transport layers supporting coarray Fortran compilers
+%B PGAS conf.
+%O http://opencoarrays.org/yahoo_site_admin/assets/docs/pgas14_submission_7.30712505.pdf
+
+%D 2014
+%A J.-H. Kim
+%A F. Barlat
+%A F. Pierron
+%A M.-G. Lee
+%J Exp. Mech.
+%V 54
+%P 1189-1204
+
+%D 2013
+%A R. LeSar
+%T Computational Materials Science
+%I Cambridge
+
+%D 2013
+%A R. J. Hanson
+%A T. Hopkins
+%T Numerical Computing with Modern Fortran
+%I SIAM
+
+%D 2013
+%A R. Moskovic \fIet al\fP
+%J Nuclear Eng. Des.
+%V 263
+%P 431-442
+
+%D 2013
+%A A. Oussoren
+%B Proc. 34th Conf. Canadian Nuclear Society
+%P 1115-1119
+
+%D 2013
+%A J. N. Reddy
+%T An Introduction to Continuum Mechanics
+%I Cambridge
+%C 2 Ed.
+
+%D 2013
+%A A. R. Nair
+%J Int. J. Plast.
+%V 51
+%P 1-32
+
+%D 2013
+%A W. Mo\['c]ko \fIet al\fP
+%J J. Strain Anal. Eng. Des
+%V 48
+%P 364-375
+
+%D 2013
+%A K. Pham \fIet al\fP
+%J J. Mech. Phys. Solids
+%V 61
+%P 2125-2146
+
+%D 2013
+%A C. Zheng
+%A D. Raabe
+%J Acta Mat.
+%V 61
+%P 5504-5517
+
+%D 2013
+%A A. Vishnu \fIet al\fP
+%J J. Supercomputing
+%V 63
+%P 691-709
+
+%D 2013
+%A C. Teijeiro \fIet al\fP
+%J Comp. Physics Communications
+%V 184
+%P 1191-1202
+
+%D 2013
+%A A. Shterenlikht
+%B Proc. 7th PGAS Conf.
+%I The University of Edinburgh, UK
+
+%D 2013
+%A S. Mahalingam
+%A P. E. J. Flewitt
+%A A. Shterenlikht
+%J Key Eng. Mat.
+%V 525-526
+%P 201-204
+
+%D 2013
+%A B. Zuccarello
+%A G. Di Franco
+%T Numerical-experimental method for the analysis
+of residual stresses in cold-expanded holes
+%J Exp. Mech.
+%V 53
+%P 673-686
+
+%D 2013
+%A E. W. V. Chaves
+%T Notes on Continuum Mechanics
+%I Springer
+
+%D 2013
+%A P. Grinfeld
+%T Introduction to tensor analysis and the calculus of moving surfaces
+%I Springer
+%O Accompanied by a set of lectures on video, available on youtube.com
+
+%D 2012
+%A I. Chivers
+%A J. Sleightholme
+%T Introduction to Programming with Fortran
+%I Springer
+%C 2 Ed.
+
+%D 2012
+%A A. Markus
+%T Modern Fortran in practice
+%I Cambridge
+
+%D 2012
+%A N. S. Clerman
+%A W Spector
+%T Modern Fortran: style and usage
+%I Cambridge
+
+%D 2012
+%A X. Guo
+%A M. Bull
+%O http://www.prace-ri.eu/IMG/pdf/d7.4.3_1ip.pdf
+
+%D 2012
+%A D. Rouson
+%O http://www.lanl.gov/conferences/salishan/salishan2014/rouson.pdf
+
+%D 2012
+%A Mittelmann HD
+%T Decision tree for optimization software
+%O http://plato.asu.edu/guide.html
+
+%D 2012
+%A P. J. Withers
+%A M. Preuss
+%J Annual Rev. Mater. Research
+%V 42
+%P 81-103
+
+%D 2012
+%A S. Osovski
+%A D. Rittel
+%J Appl. Phys. Let.
+%V 101
+%P 211901
+
+%D 2012
+%A S. Osovski \fIet al\fP
+%J Scripta Mat.
+%V 67
+%P 693-695
+
+%D 2012
+%A F. Roters \fIet al\fP
+%J Procedia IUTAM
+%V 3
+%P 3-10
+
+%D 2012
+%A C. Zheng \fIet al\fP
+%J Acta Mat.
+%V 60
+%P 4768-4779
+
+%D 2012
+%A R. S. Saluja \fIet al\fP
+%J Comp. Mat. Sci.
+%V 58
+%P 87-100
+
+%D 2012
+%A E. W. C. Coenen \fIet al\fP
+%J Int. J. Fract.
+%V 178
+%P 157-178
+
+%D 2012
+%A F. M. Capaldi
+%T Continuum mechanics
+%I Cambridge
+
+%D 2012
+%A A. Shterenlikht
+%A N. A. Alexander
+%J Comp. Meth. Appl. Mech. Eng.
+%V 237-240
+%P 1-9
+
+%D 2012
+%A E. B. Tadmor
+%A R. E. Miller
+%A R. S. Elliot
+%T Continuum Mechanics and Thermodynamics
+%I Cambridge
+
+%D 2012
+%A T. Carozzani \fIet al\fP
+%J Model. Simul. Mat. Sci. Eng.
+%V 20
+%N 015010 
+
+%D 2011
+%A D. Rouson
+%A J. Xia
+%A X. Xu
+%T Scientific Software Design
+%I Cambridge
+
+%D 2011
+%A M. Metcalf
+%A J. Reid
+%A M. Cohen
+%T Modern Fortran explained
+%I Oxford
+%C 7 Ed.
+
+%D 2011
+%A Br\(:unig M
+%A Gerke S
+%T Simulation of damage evolution in ductile metals
+undergoing dynamic loading conditions
+%J Int. J. of Plasticity
+%V 27
+%N 10
+%P 1598-1617
+
+%D 2011
+%A J. Dongarra \fIet al\fP
+%J Int. J High Perf. Comp. Appl.
+%V 25
+%P 3-60
+
+%D 2011
+%A S. Wang \fIet al\fP
+%J Acta Mat.
+%V 59
+%P 3872-3882
+
+%D 2011
+%A E. W. C. Coenen \fIet al\fP
+%J Model. Simul. Mat. Sci. Eng.
+%V 19
+%P 074008
+
+%D 2011
+%A A. H. Mahmoudi
+%A C. E. Truman
+%A D. J. Smith
+%A M. J. Pavier
+%T The effect of plasticity on the ability of the deep hole drilling technique to measure axisymmetric redidual stress
+%J Int. J. Mech. Sci.
+%V 53
+%P 978-988
+
+%D 2010
+%A F. Roters \fIet al\fP
+%J Acta Mat.
+%V 58
+%P 1152-1211
+
+%D 2010
+%A T. Belytschko \fIet al\fP
+%B Multiscale methods
+%E J. Fish
+%I Oxford
+%P 93-133
+
+%D 2010
+%A J. Fish ed
+%T Multiscale methods
+%I Oxford
+
+%D 2010
+%A W. F. Hosford
+%T Solid mechanics
+%I Cambridge
+
+%D 2010
+%A Steuwer
+%A Rahman
+%A Shterenlikht
+%A Fitzpatrick
+%A Edwards
+%A Withers
+%J Acta Mat.
+%V 58
+%P 4039-4052
+
+%D 2010
+%A D. Vangi
+%A S. Tellini
+%T Hole-drilling strain-gauge method: residual stress measurement with plasticity effects
+%J J. Eng. Mater. Technol.
+%V 132
+%P 011003-1-6
+
+%D 2010
+%A M. B. Prime
+%T Plasticity effects in incremental slitting measurement of residual stresses
+%J Eng. Fract. Mech.
+%V 77
+%P 1552-1566
+
+%D 2009
+%A M. Bornert \fIet al\fP
+%J Exp. Mech.
+%V 49
+%P 353-370
+
+%D 2009
+%A A. Blair \fIet al\fP
+%B Proc. 7 BSSM Conf., 8-10 September 2009, Cambridge, UK
+
+%D 2009
+%A F. Zhang \fIet al\fP
+%J Composites Sci. Tech.
+%V 69
+%P 1887-1895
+
+%D 2008
+%A L. H. Dai
+%A Y. L. Bai
+%T Basic  mechanical  behaviors and  mechanics  of  shear banding in BMGs
+%J Int. J. of Imp. Engineering
+%V 35
+%N 8
+%P 704-716
+
+%D 2008
+%A M. Xu
+%A T. Belytschko
+%J Int. J. Numer. Meth. Engng
+%V 76
+%P 278-294
+
+%D 2008
+%A J.-H. Song \fIet al\fP
+%J Comp. Mech.
+%V 42
+%P 239-250
+
+%D 2008
+%A Song \fIet al\fP
+%J Int. J. Numer. Meth. Engng
+%V 73
+%P 869-894
+
+%D 2008
+%A M. Wallin \fIet al\fP
+%J J. Mech. Phys. Solids
+%V 56
+%P 3167-3180
+
+%D 2008
+%A V. Nguyen \fIet al\fP
+%J Math. Comput. Simul
+%V 79
+%P 763-818
+
+%D 2007
+%A J. C. F. Millett \fIet al\fP
+%J J. Appl. Phys.
+%V 102
+%P 063518
+%O DOI: 10.1063/1.2783843
+
+%D 2007
+%A A. Neuberger
+%A S. Peles
+%A D. Rittel
+%J Int. J. Impact Eng.
+%V 34
+%P 859-873
+
+%D 2007
+%A Rusinek A
+%A Zaera R
+%A Klepaczko JR
+%T Constitutive relations in 3-D for a wide range
+of strain rates and temperatures -
+application to mild steels
+%J Int. J. of Solids and Str.
+%V 44
+%P 5611-5634
+
+%D 2007
+%A S. Zhang \fIet al\fP
+%J Int. J. Numer. Meth. Engng
+%V 70
+%P 913-933
+
+%D 2007
+%Q ISO 3183:2007
+%T Steel pipe for pipeline transportation systems
+%I International standard
+
+%D 2006
+%A D. Rittel \fIet al\fP
+%J Phys. Rev. Lett.
+%V 96
+%P 075502
+
+%D 2006
+%A I. M. Smith
+%A L. Margetts
+%J Eng. Comput.
+%V 23
+%P 154-165
+
+%D 2006
+%A A. Shterenlikht
+%A I. C. Howard
+%J Fatigue Fract. Eng. Mat. and Struct.
+%V 29
+%P 770-787
+
+%D 2006
+%A J.-P. Mathieu \fIet al\fP
+%J Fatigue Fract. Engng Mat. Struct
+%V 29
+%P 725-737
+
+%D 2006
+%A S. Das
+%A A. Shterenlikht
+%A I. C. Howard
+%A E. J. Palmiere
+%J Proc. Roy. Soc. A
+%V 462
+%P 2085-2096
+
+%D 2005
+%A W. F. Hosford
+%T Mechanical behavior of materials
+%I Cambridge
+
+%D 2005
+%A S. J. Wu
+%A C. L. Davis
+%A A. Shterenlikht
+%A I. C. Howard
+%J Met. Mat. Trans. A
+%V 36
+%P 989-997
+
+%D 2005
+%A S. H. Shin
+%T FEM analysis of plasticity-induced error in
+measurement of welding residual stress by the contour method
+%J J. Mater. Sci. Tech.
+%V 19
+%N 10
+%P 1885-1890
+
+%D 2004
+%A J. Gibmeier
+%A J. P. Nobre
+%A B. Scholtes
+%T Residual stress determination by a hole drilling method in the case of highly stressed surface layers
+%J Mat. Sci. Res. Intern.
+%V 10
+%P 21-25
+
+%D 2004
+%A M. Berghini
+%A I. Bertini
+%A C. Santus
+%T A procedure for evaluating high residual stresses using the blind hole drilling method, including the effect of plasticity
+%J J. Strain Analysis
+%V 45
+%P 301-318
+
+%D 2003
+%A W. A. Curtin
+%A R. E. Miller
+%J Model. Simul. Mat. Sci. Engng
+%V 11
+%P R33-R68
+
+%D 2003
+%A G. J. Wagner
+%A W. K. Liu
+%J J. Comput. Phys.
+%V 190
+%P 249-274
+
+%D 2003
+%A S. A. Mcdonald \fIet al\fP
+%J J. Microscopy
+%V 209
+%P 102-112
+
+%D 2003
+%A M. Akivis
+%A V. V. Goldberg
+%T Tensor Calculus with Applications
+%I World Scientific
+
+%D 2003
+%A S. R. Idelsohn
+%J Int. J. Numer. Meth. Engng
+%V 58
+%P 893-912
+
+%D 2002
+%A D. Rittel \fIet al\fP
+%J Exp. Mech.
+%V 42
+%P 58-64
+
+%D 2002
+%A D. Raabe
+%J Annu. Rev. Mater. Res
+%V 32
+%P 53-76
+
+%D 2002
+%A G. D. Hibbard \fIet al\fP
+%J Scripta Mat.
+%V 47
+%P 83-87
+
+%D 2001
+%A R. B. Phillips
+%T Crystals, Defects and Microstructures: modeling across scales
+%I Cambridge
+
+%D 2001
+%A M. B. Prime
+%T Cross-sectional mapping of residual stresses
+by measuring the surface contour after a cut
+%J J. Eng. Mater. Technol.
+%V 123
+%P 162-168
+
+%D 2001
+%A V. Kouznetsova
+%A W. A. M. Brekelmans
+%A F. P. T. Baaijens
+%T An approach to micro-macro modeling of heterogeneous materials
+%J Comp. Mech.
+%V 27
+%P 37-48
+
+%D 2000
+%A H. Lu
+%A P. D. Cary
+%J Exp. Mech.
+%V 40
+%P 393-400
+
+%D 2000
+%A I. M. Smith
+%J Eng. Comput.
+%V 17
+%P 75-91
+
+%D 2000
+%A F. Feyel
+%A J. L. Chaboche
+%J Comp. Meth. Appl. Mech. Engng
+%V 183
+%P 309-330
+
+%D 2000
+%A A. Needleman
+%T Computational mechanics at mesoscale
+%J Acta Mat.
+%V 48
+%P 105-124
+
+%D 2000
+%A J. Gibmeier
+%A M. Kornmeier
+%A B. Scholtes
+%T Plastic deformation during application of the hole drilling method
+%J Mat. Sci. Forum
+%V 347-349
+%P 131-136
+
+%D 2000
+%A M. Plapp
+%A A. Karma
+%J Phys. Rev. Lett.
+%V 84
+%P 1740-1743
+
+
+%D 1999
+%A J. P. Noble \fIet al\fP
+%J J. Mech. Phys. Solids
+%V 47
+%P 1187-1206
+
+%D 1999
+%A J. Q. Broughton, \fIet al\fP
+%J Phys. Rev. B
+%V 60
+%P 2391-2403
+
+%D 1999
+%A R. Q. Liang
+%A A. S. Khan
+%J Int. J. Plast.
+%V 15
+%P 963-980
+
+%D 1999
+%A C. A. Gandin \fIet al\fP
+%J Met. Mat. Trans. A
+%V 30
+%P 3153-3165
+
+%D 1999
+%A J. Case
+%A Lord Chilver
+%A C. T. F. Ross
+%T Strength of Materials and Structures
+%I Arnold
+%C 4ed.
+
+%D 1998
+%A B. Chopard
+%A M. Droz
+%T Cellular Automata Modeling of Physical Systems
+%I Cambridge
+
+%D 1997
+%A J. M. Gere
+%A S. P. Timoshenko
+%T Mechanics of Materials
+%I PWS Publishing Company
+%C 4 Ed.
+
+%D 1997
+%A W. K. Liu
+%A S. Li
+%A T. Belytschko
+%J Comput. Methods Appl. Mech. Eng.
+%V 143
+%P 113-154
+
+%D 1996
+%A G. Yagawa
+%A T. Yamada
+%J Comput. Mech.
+%V 18
+%P 383-386
+
+%D 1996
+%A E. Onate \fIet al\fP
+%J Int. J. Numer. Meth. Engng
+%V 39
+%P 3839-3866 
+
+%D 1996
+%A G. Petrucci
+%A B. Zuccarello
+%T Effect of plasticity on the residual stress measurement using the groove method
+%J Strain
+%V 32
+%P 97-104
+
+%D 1995
+%A S. R. Phillpot \fIet al\fP
+%J Mat. Sci. Eng. A
+%V 204
+%P 76-82
+
+%D 1995
+%A Y. C. Lin
+%A C. P. Chou
+%T Error induced by local yielding around hole in hole drilling method for measuring residual stress of materials
+%J Materials Science and Technology
+%V 11
+%P 600-604
+
+%D 1995
+%A B. A. Bilby \fIet al\fP
+%J Int. J. Pres. Ves. & Piping
+%V 64
+%P 213-223
+
+%D 1994
+%A Ch.-A. Gandin
+%A M. Rappaz
+%J Acta Mat.
+%V 42
+%P 2233-46
+
+%D 1993
+%A J. J. Mor\['e]
+%A S. J. Wright
+%T Optimization Software Guide
+%I SIAM
+
+%D 1993
+%A Slatec common mathematical library
+%R Version 4.1
+%O http://www.netlib.org/slatec/
+
+%D 1993
+%A V. Tvergaard
+%J J. Mech. Phys. Solids
+%V 41
+%P 1309-1326
+
+%D 1990
+%A Tvergaard V
+%T Material failure by void growth to coalescence
+%J Advances in Applied Mechanics
+%V 27
+%P 83-151
+
+%D 1985
+%A J. F. Nye
+%T Physical Properties of Crystals: Their Representation by Tensors and Matrices
+%I Oxford
+%C 2 Ed.
+
+%D 1984
+%A G. Y. Vichniac
+%T Simulating physics with cellular automata
+%J Physica D
+%V 10
+%P 96-116
+
+%D 1983
+%A F. M. Beremin \fIet al\fP
+%J Met. Trans. A
+%V 14A
+%P 2277-2287
+
+%D 1983
+%A G. R. Johnson
+%A W. H. Cook
+%B Proc. 7th Int. Symp. Ballistics
+%C The Hague, The Netherlands
+
+%A R. W. Fitzgerald
+%T Mechanics of Materials
+%I Addison-Wesley
+%D 1982
+%C 2 Ed.
+
+%D 1978
+%A S. H. Crandall
+%A N. C. Dahl
+%A T. J. Lardner
+%T An Introduction to the Mechanics of Solids
+%I McGraw-Hill
+%C 2 Ed. with SI units
+
+%D 1970
+%A P. Rabinowitz ed
+%T Numerical Methods for Nonlinear Algebraic Equations
+%I Gordon and Breach
+
+%D 1970
+%A G. E. Mase
+%T Theory and problems of continuum mechanics
+%S Schaum's outline series in engineering
+%I McGraw-Hill
+
+%D 1970
+%A L. D. Landau
+%A E. M. Lifshitz
+%T Theory of Elasticity
+%I Pergamon Press 
+%C 2 Ed.
+%V 7
+%S Course of Theoretical Physics
+
+%D 1969
+%A L. E. Malvern
+%T Introduction to the Mechanics of a Continuous Medium
+%I Prentice Hall
+
+%D 1968
+%A A. E. Green
+%A W. Zerna
+%T Theoretical elasticity
+%C 2 Ed.
+%I Oxford
+
+%D 1967
+%A A. C. Eringen
+%T Mechanics of Continua
+%I John Wiley & Sons
+
+%D 1966
+%A I. S. Sokolnikoff
+%A R. M. Redheffer
+%T Mathematics of Physics and Modern Engineering
+%I McGraw-Hill
+%C 2 Ed.
+
+%D 1963
+%A H. Ford
+%T Advanced Mechanics of Materials
+%I Longmans
+
+%D 1956
+%A I. S. Sokolnikoff
+%T Matemathical Theory of Elasticity
+%I McGraw-Hill
+%C 2 Ed.
+
+%D 1951
+%A I. S. Sokolnikoff
+%T Tensor Analysis
+%I John Wiley & Sons
+
+%D 2000
+%A D. W. A. Rees
+%T Mechanics of Solids and Structures
+%I Imperial College Press
+
+%D 2005
+%A EPSRC
+%T International Review of Research Using HPC in the UK
+%O http://www.epsrc.ac.uk/SiteCollectionDocuments/Publications/reports/HPCInternationalReviewReport.pdf
+ 
+%D 2009
+%A F. P. Beer
+%A E. R. Johnston, Jr.
+%A J. T. Dewolf
+%A D. F. Mazurek
+%T Mechanics of Materials
+%I McGraw-Hill
+%C 5 Ed.
+
+%D 2010
+%A F. Oikonomidis
+%T Prediction of crack propagation in natural
+gas transmission pipelines by means of
+micromechanics and strain rate dependent models
+%I University of Bristol, UK
+%O PhD thesis, supervised by Dr Shterenlikht
+
+%D 2013
+%A CRESTA
+%T The exascale development environment: state of the art and gap analysis
+
+%D 2013
+%A CRESTA
+%T Extreme weather forecasting with extreme computing
+%O http://cresta-project.eu/images/cresta_case_study.pdf
+
+%D 2010
+%T Nanotechnology Boosting Power Plant Efficiency and Reducing Nuclear Waste
+%O http://www.azonano.com/news.aspx?newsID=18611, accessed JAN-2014
+
+%D 2010
+%A Kim Y
+%A Shin SY
+%A Kim YG
+%A Kim NJ
+%A Lee S
+%T Effects of strain rate and test temperature on
+torsional deformation behaviour of API X70 and
+X80 linepipe steels
+%J Met. and Mat. Trans. A
+%V 41A
+%P 1961-1972
+
+%D 2008
+%A Igi S
+%A Kawaguchi S
+%A Suziki N
+%T Running ductile fracture analysis for JGA X80 burst test
+%B Proc. of 8th Int. Symp. of the Japan Welding Soc
+%N 1
+%P 95-102
+
+%D 2008
+%A J. Bonet
+%A R. D. Wood
+%T Nonlinear Continuum Mechanics for Finite Element Analysis
+%I Cambridge
+%C 2 Ed.
+
+%D 1990
+%A Batra RC
+%A Kim CH
+%T Effect of viscoplastic flow rules
+on the initiation and growth of shear bands at high
+strain rates
+%J J. Mech. Phys. Solids
+%V 38
+%N 6
+%P 859-874
+
+%D 2000
+%A Pussegoda LN
+%A Verbit S
+%A Dinovitzer A
+%A Tyson W
+%A Glover A
+%A Collins L
+%A Carlson L
+%A Beattie J
+%T Review of CTOA as a measure of ductile fracture toughness
+%B Proc. of Int. Pipeline Conf.
+%C Calgary, Alberta
+%R IPC00-0031
+
+%A Johnson GR
+%C South Western Research Institute, Minneapolis, USA
+%D AUG-2012
+%O Private communication
+
+%D 2011
+%A Chen W
+%A Song B
+%T Split Hopkinson (Kolsky) Bar
+%I Springer
+
+%D 2004
+%A Gama BA
+%A Lopatnikov SL
+%A Gillespie JW
+%T Hopkinson bar experimental technique: a critical review
+%J Appl. Mech. Rev.
+%V 57
+%N 4
+%P 223-250
+
+%A Chanerley A
+%A Alexander NA
+%T Obtaining estimates of the low-frequency `fling',
+instrument tilts and displacement timeseries
+using wavelet decomposition
+%J Bul. of Earthquake Eng.
+%V 8
+%N 2
+%P 231-255
+%D 2010
+
+%A H. Ziegler
+%T An Introduction to Thermomechanics
+%S Applied Mathematics and Mechanics
+%V 21
+%I North-Holland
+%D 1983
+%C 2 Ed.
+
+%A Panda DK
+%T The future of MPI
+%B HPC advisory council workshop, Malaga 2012
+%O http://www.hpcadvisorycouncil.com/events/2012/Spain-Workshop/pres/3_OSU.pdf
+
+%Q ISO/IEC 1539-1:2010
+%T Fortran - Part 1: Base language
+
+%Q ISO/IEC 1539-1:2010/Cor 1:2012
+%T Fortran - Part 1: Base language TECHNICAL CORRIGENDUM 1
+
+%Q ISO/IEC 1539-1:2010/Cor 2:2013
+%T Fortran - Part 1: Base language TECHNICAL CORRIGENDUM 2
+
+%Q ISO/IEC JTC1/SC22/WG5 N2048
+%T TS 18508 Additional Parallel Features in Fortran
+%D 9-MAR-2015
+
+%D 2014
+%A M. Holl \fIet al\fP
+%J Comp. Mech
+%V 53
+%P 173-188
+
+%Q ISO/IEC JTC1/SC22/WG5 WD1539-1
+%T J3/10-007r1 F2008 Working Document
+%O http://j3-fortran.org/doc/year/10/10-007r1.pdf
+
+%D 1998
+%A Rittel D
+%T Transient temperature measurement using embedded thermocouples
+%J Exp. Mech.
+%V 38
+%N 2
+%P 73-78
+
+%D 1992
+%A D.E. Bourne
+%A P.C. Kendall
+%T Vector analysis and cartesian tensors
+%C 3rd ed.
+%I Chapman & Hall
+
+%D 1988
+%A Boisvert RF
+%A Howe SE
+%A Kahaner DK
+%T NIST core math library (CMLIB)
+%R Version 3.0
+%I National Institute of Standards and Technology, USA
+%O http://gams.nist.gov/cgi-bin/serve.cgi/Package/CMLIB
+
+%D 1987
+%A A. Torn
+%A A. Zilinskas
+%T Global Optimisazation
+%I Springer
+
+%D 1987
+%A G. Rousselier
+%J Nuclear Eng. Des.
+%V 105
+%P 97-111
+
+%D 1987
+%A F. J. Zerilli
+%A R. W. Armstrong
+%J J. Appl. Phys.
+%V 61
+%P 1816-1825
+
+%D 1987
+%A L. A. Segel
+%T Mathematics applied to continuum mechanics
+%I Dover
+
+%D 1984
+%A Cowell WR (ed)
+%T Sources and Development of Mathematical Software
+%I Prentice-Hall
+
+%D 1981
+%A S. Valliappan
+%T Continuum mechanics
+%I Balkema
+
+%D 1980
+%A A. J. M. Spencer
+%T Continuum mechanics
+%I Longman
+
+%D 1976
+%A F. Chorlton
+%T Vector & tensor methods
+%I Ellis Horwood
+
+%D 1976
+%A S. C. Hunter
+%T Mechanics of continuous media
+%I Ellis Horwood
+  
+%D 1976
+%A P. Chadwick
+%T Continuum Mechanics
+%I George Allen & Unwin
+
+%D 1975 
+%A J. W. Rudnicki
+%A J. R. Rice
+%J J. Mech. Phys. Solids
+%V 23
+%P 371-394
+
+%D 1971
+%A G. P. Anderson
+%A V. L. Ruggles
+%A G. S. Stibor
+%J Int. J. Frac. Mech.
+%V 7
+%P 63-76
+
+%D 1970
+%A P. G. Hodge
+%T Continuum mechanics
+%I McGraw-Hill
+
+%D 1969
+%A Y. C. Fung
+%T A First Course in Continuum Mechanics
+%I Prentice-Hall
+
+%D 1968
+%A L. R. Calcote
+%T Introduction to continuum mechanics
+%I Van Nostrand
+
+%D 1967
+%A L. A. Scipio
+%T Principles of continua, with applications
+%I Wiley
+
+%D 1964
+%A L. Brillouin
+%T Tensors in mechanics and elasticity
+%I Academic Press
+
+%D 1963
+%A E. F. Byars
+%A R. D. Snyder
+%T Engineering Mechanics of Deformable Bodies
+%I International Textbook Company
+
+%D 1959
+%A A. H. Cottrell
+%B Fracture
+%E B. L. Averbach
+%I Wiley
+%P 20-53

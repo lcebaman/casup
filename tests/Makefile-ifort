@@ -1,0 +1,92 @@
+#*robodoc*b* tests/Makefile-tests-ifort
+#  NAME
+#    Makefile-tests-ifort
+#  SYNOPSIS
+
+#$Id: Makefile-ifort 525 2018-03-19 21:54:26Z mexas $
+
+FC=		ifort
+
+#  PURPOSE
+#    Build CGPACK tests with with Intel MPI Fortran compiler.
+#  AUTHOR
+#    Anton Shterenlikht
+#  COPYRIGHT
+#    See LICENSE
+#  SOURCE
+
+# This file must exist only at run time.
+# At build time only the name of this file
+# must be specified.
+#CA_CONF_FILE=	xx14.conf
+
+COAR_FLAGS=	-coarray=distributed
+# -coarray-config-file=$(CA_CONF_FILE)
+FFLAGS=		$(COAR_FLAGS) -debug full -warn all -O2 -qopt-report \
+		-traceback
+		#-std08 -warn stderrors -mt_mpi
+FFLAGS_CA=	$(FFLAGS) -I. -I$(MODDIR)
+
+CGLIB=		cgpack
+LIBDIR=		$(HOME)/lib
+MODDIR=		$(HOME)/include
+MODFILES=	$(MODDIR)/cgca.mod
+LIBNAME=	lib$(CGLIB).a
+
+LIB=		$(COAR_FLAGS) -L$(LIBDIR) -l$(CGLIB) \
+#		-L$(HOME)/soft/hdf5-1.10.1-ifort16u2-install/lib -lhdf5 -lhdf5_fortran \
+#		-L$(HOME)/soft/netcdf-fortran-4.4.4-ifort-install/lib -lnetcdff
+# -lhdf5_hl -lhdf5hl_fortran
+
+MODSRC=		testaux.f90
+MODMOD=		$(MODSRC:.f90=.mod)
+MODOBJ=		$(MODSRC:.f90=.o)
+MODRPT=		$(MODSRC:.f90=.optrpt)
+CLEAN+=		$(MODMOD) $(MODOBJ) $(MODRPT)
+
+SRC= \
+testAAA.f90 testAAB.f90 testAAC.f90 testAAD.f90 testAAE.f90 \
+testAAF.f90 testAAG.f90 testAAH.f90 testAAI.f90 testAAJ.f90 \
+testAAK.f90 testAAL.f90 testAAM.f90 testAAN.f90 testAAO.f90 \
+testAAP.f90 testAAQ.f90 testAAR.f90 testAAS.f90 testAAT.f90 \
+testAAU.f90 testAAV.f90 testAAW.f90 testAAX.f90 testAAY.f90 \
+testAAZ.f90 \
+testABA.f90 testABB.f90 testABC.f90 testABD.f90 testABE.f90 \
+testABF.f90 testABG.f90 testABH.f90 testABI.f90 testABJ.f90 \
+testABP.f90 testABQ.f90 testABR.f90 testABS.f90 testABT.f90 \
+testABU.f90             testABY.f90 \
+testABZ.f90 \
+testACA.f90 testACB.f90            testACE.f90 \
+#             testACD.f90 - MPI
+#             testABW.f90 - MPI used directly
+#  testABM.f90 - MPI used directly
+#test_hdf5.f90 test_hxir.f90 test_netcdf.f90 testACF.f90
+# testABK.f90 testABL.f90 testABN.f90 testABO.f90 testABV.f90
+# testACC.f90 - co_sum not supported by ifort 16
+# testABX.f90 - Cray parallel IO extensions
+
+OBJ=		$(SRC:.f90=.o)
+RPT=		$(SRC:.f90=.optrpt)
+EXE=		$(SRC:.f90=.x)
+CLEAN+=		$(OBJ) $(RPT) $(EXE)
+
+.SUFFIXES:
+.SUFFIXES:	.f90 .o .x
+
+all:		$(MODOBJ) $(MODMOD) $(OBJ) $(EXE)
+
+.f90.o:
+		$(FC) -c $< $(FFLAGS_CA)
+
+.o.x:
+		$(FC) -o $@ $< $(MODOBJ) $(LIB)
+
+# Extra dependencies
+$(EXE):		$(LIBDIR)/$(LIBNAME) $(MODOBJ)
+$(OBJ):		$(MODMOD) $(MODSMOD) $(MODFILES)
+$(MODOBJ):	$(MODFILES)
+ 
+clean:
+		\rm $(CLEAN)
+
+#*roboend*

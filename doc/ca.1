@@ -1,0 +1,66 @@
+.\"$Id: ca.1 525 2018-03-19 21:54:26Z mexas $
+.NH 1
+Cellular automata (CA)
+.XS
+Cellular automata (CA)
+.XE
+.PP
+There is extensive background literature on CA.
+.[
+1984 Vichniac Simulating physics with cellular automata Physica D
+.]
+.[
+chopard droz 1998
+.]
+.[
+phillips crystals defects 2001
+.]
+.[
+lesar 2013
+.]
+The CASUP library is designed for 3D analysis.
+The 26 cell neighbourhood (Moore's neighbourhood) is assumed.
+.[
+shterenlikht margetts 2015 proc roy
+.]
+.PP
+The library provides parallelisation via coarrays,
+which are a new language element introduced
+in Fortran 2008 standard.
+.[
+shterenlikht cebamanos 2015
+.]
+The central feature of the library is the
+.I space
+coarray.
+This is an allocatable integer array coarray,
+defined as follows.
+.DS L
+.CW
+integer( kind=iarr ), allocatable, intent(inout) :: coarray(:,:,:,:)[:,:,:]
+.DE
+where
+.CW iarr
+is an integer kind used for the space coarray.
+All kinds and other parameters are defined
+in module
+.CW cgca_m1co.f90 .
+Space coarray is allocated by routine
+.CW cgca_as
+from module
+.CW cgca_m2alloc.f90 .
+Routine
+.CW cgca_as
+takes many input parameters:
+.DS L
+.CW
+subroutine cgca_as( l1, u1, l2, u2, l3, u3, col1, cou1, col2, cou2, &
+                    col3, props, coarray )
+.DE
+and allocates the space coarray as follows.
+.DS L
+.CW
+allocate( coarray(                                                  &
+          l1-halo:u1+halo, l2-halo:u2+halo, l3-halo:u3+halo, props) &
+          [col1:cou1, col2:cou2, col3:*] )
+.DE

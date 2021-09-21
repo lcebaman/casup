@@ -1,0 +1,22 @@
+#!/bin/sh
+#
+#$Id: hec.ser.sample 191 2015-12-15 21:46:16Z mexas $
+#
+# Serial script produced by bolt
+#        Resource: HECToR (Cray XE6 (32-core per node))
+#    Batch system: PBSPro
+#
+# bolt is written by EPCC (http://www.epcc.ed.ac.uk)
+#
+#PBS -N bzip
+#PBS -A e277
+#PBS -q serial
+#PBS -l cput=0:20:0
+#PBS -j oe
+
+# Switch to current working directory
+export PBS_O_WORKDIR=$(readlink -f $PBS_O_WORKDIR)
+cd $PBS_O_WORKDIR
+
+# Run the serial program
+tar czf z.tgz z*raw

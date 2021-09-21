@@ -1,0 +1,524 @@
+.\"$Id: parafem.1 525 2018-03-19 21:54:26Z mexas $
+.NH 1
+Interfacing with ParaFEM
+.XS
+Interfacing with ParaFEM
+.XE
+.PP
+ParaFEM is a parallel scalable finite element
+library written in Fortran 90/95/2003 with MPI
+library for communications.
+The main web site is: 
+.DS C
+.CW http://parafem.org.uk .
+.DE
+The code is available via svn from:
+.DS C
+.CW
+http://sourceforge.net/projects/parafem
+.DE
+The best documentation for the code is
+Dr Margetts' book,
+.[
+margetts griffith smith 2014
+.]
+specifically chapter 12.
+ParaFEM is distributed under BSD licence.
+.PP
+Intefrace of CASUP with ParaFEM is implemented in
+module
+.CW cgca_m3pfem.f90 .
+The module includes the following routines:
+.DS L
+.CW
+cgca_pfem_boxin
+cgca_pfem_cellin
+cgca_pfem_cenc
+cgca_pfem_cendmp
+cgca_pfem_centroid_tmp
+cgca_pfem_ctalloc
+cgca_pfem_ctdalloc
+cgca_pfem_ealloc
+cgca_pfem_edalloc
+cgca_pfem_enew
+cgca_pfem_intcalc1
+cgca_pfem_integalloc
+cgca_pfem_integdalloc
+cgca_pfem_integrity
+cgca_pfem_partin
+cgca_pfem_salloc
+cgca_pfem_sdalloc
+cgca_pfem_sdmp
+cgca_pfem_simg
+cgca_pfem_stress
+cgca_pfem_uym
+cgca_pfem_wholein
+.DE
+.NH 2
+Mapping
+.XS
+Mapping
+.XE
+.PP
+Consider a body of arbitrary shape and size:
+.PS 2in
+copy "gen1.pic"
+.PE
+.PP
+Consider a "box" of cells, i.e.
+a rectilinear array of arbitrary size
+.PS 2in
+copy "gen2.pic"
+.PE
+that occupies some or all of the space
+occupied by the body:
+.PS 3in
+copy "gen3.pic"
+.PE
+Here the dashed lines are the box edges obscured by
+the body, and thin dotted lines are the outlines of
+the body obscured by the box.
+.PP
+So there are bits of the material box which are outside
+of the body, and there are bits of the body which are
+outside of the material box.
+These regions are of no interest to us.
+However, it will be important to identify such regions.
+The regions of space which are occupied by the body and
+by the material box are subject to multi-scale analysis.
+.PP
+We assume that the number of coarray images and MPI processes are always
+identical.
+This is currently the case on Cray and Intel systems.
+.PP
+The following illustration of the MPI/coarray multi-scale
+model is drawn for 4 MPI processes
+and 4 coarray images.
+ParaFEM is written in fortran.
+Hence MPI ranks start from 1.
+.PS 5in
+copy "gen4.pic"
+.PE
+There are 4 sub-domains, processed by 4 MPI processes
+with ranks 1 to 4.
+These are denoted by thin solid lines drawn on top of
+the body.
+There are 4 images with the coarrays of cellular microstructure.
+These are also denoted by thin solid lines drawn on top
+of the material box.
+.PP
+Each process has its chunk of finite elements
+and its microstructure coarray.
+There are two problems.
+.IP 1.
+Some FE have no corresponding cells and some
+cells have no corresponding FEs.
+Corresponding here means occupying the same space.
+.IP 2.
+FEs and cells that do correspond to each other
+are not always allocated to the same processor.
+.PS 6.5i
+.in 0
+copy "gen5.pic"
+.PE
+.PP
+The boxes represent the processors, or in Cray
+terminology, processing
+elements (PE).
+Each PE is given an MPI rank
+and a coarray image number.
+These are 
+.I not
+guaranteed to be identical.
+On Cray systems
+on any PE MPI rank is identical to the image number.
+At present the interface relies on the fact that
+MPI rank is identical to the coarray image number.
+If this is not the same of any system, then the
+interface will not work.
+.PP
+The arrows in this diagram indicate data transfer
+between CA and FE.
+Coarray on PE 1 will have to communicate with
+FE on PE 3.
+FE on PE 1 will have to communicate with
+coarrays on PEs 2 and 3.
+And so on.
+Note that FE on PE 4 do not communicate with
+CA at all, because none of these FE occupy the same
+physical space as CA.
+Likewise, it is possible, although not shown in this
+diagram, that coarrays on some image will not need
+to communicate with FE at all.
+This will happen if none of these cells will share
+space with FE.
+.PP
+It is a major assumption of the framework that
+the mapping between the FE and CA is not affected
+by the deformation.
+For small deformation problems this assumption
+is natural.
+For large deformation problems this assumption
+means that the CA array is
+.I deforming
+together with FE.
+This assumption means that the mapping between
+CA and FE is established based on the initial,
+undeformed, geometry, and is not changed
+throughout the analysis.
+.PP
+The benefits of this approach are that the CA halo
+exchange algorithm is unaffected by linking CA to FE.
+Indeed, as far as CA is concerned,
+not much is changing at all.
+.PP
+One drawback of this simple mapping scheme
+is that there might be lots of communications
+across the node boundary.
+These correspond to the arrows crossing
+the box boundaries in the diagram above.
+In the example of the illustration
+there are four inter-processor CA \[<>] FE arrows,
+and only a single CA \[<>] FE arrow on the
+same processor, PE 2.
+However, this is a performance problem, which
+will have to be addressed later.
+.PP
+The first problem in constructing the interface
+following this general scheme is that each
+image must know which MPI processes to communicate with
+to obtain the FE data.
+.PP
+Let's denote the FE coordinate system (CS) by  $ bold x sup { F E } $,
+and the CA CS by $ bold x sup { C A } $.
+The CA model "box" is always aligned with the CA CS.
+Let's denote the origin of the CA CS in the
+FE CS system by $ bold x sub { o } sup { F E } $.
+Let $ bold R $ be the rotation tensor
+.I from
+the FE CS
+.I to
+the CA CS.
+Then coordinates of some point P in the FE and the CA
+CS are related as follows:
+.EQ
+bold x sup { C A }
+ =
+   bold R cdot ( bold x sup { F E } - bold x sub { o } sup { F E } )
+.EN
+.EQ
+bold x sup { F E }
+ =
+   bold R sup T cdot bold x sup { C A } + bold x sub { o } sup { F E }
+.EN
+These relationships are illustrated below for a
+coarray on a single image.
+.PS 5in
+copy "gen6.pic"
+.PE
+Here $ bold x sub { s }  sup { C A } $ and
+$ bold x sub { e } sup { C A } $ 
+denote the extents of the coarray model space on each image.
+.PP
+Each image knows its own 
+$ bold x sub { s }  sup { C A } $ and
+$ bold x sub { e } sup { C A } $.
+The algorithm for constructing the mapping includes the following steps:
+.IP 1.
+Find out what MPI processes contain FEs with
+.I intial
+centroid coordinates inside the coarray "box" on each image.
+.IP 2.
+Find all element numbers from each MPI process
+that have to communicate
+with the coarray "box" on each image.
+.PP
+The key ParaFEM/CASUP interface data structure
+is the allocatable private local, i.e. non-coarray,
+array of derived type
+.CW lcentr
+established on each image.
+This array
+contains centroids of all finite elements linked
+to this image, including the element numbers and the
+images where these elements are stored.
+This array is defined as:
+.DS B
+.CW
+type mcen
+  integer( kind=idef ) :: image
+  integer( kind=idef ) :: elnum
+  real( kind=cgca_pfem_iwp ) :: centr(3)
+end type mcen
+type( mcen ), allocatable :: lcentr(:)
+.DE
+.PP
+Below is the illustration of the use of
+.CW lcentr
+array.
+Consider 2 images, P and Q.
+The CA array on image P might have to communicate with
+FE which are stored on the same
+image, and also with those FE which are stored on
+other images.
+For example FE with centroid coordinates
+.B r
+is FE number n, that is stored on image Q.
+Getting and sending data to this FE will involve
+inter-image communication.
+FE with centroid coordinates
+.B s
+is FE number b, which is stored on the same image.
+.PP
+Similarly on some other image Q, a FE
+with centroid coordinates
+.B u
+is FE number m, that is stored locally on the same image.
+However, FE with centroid coordinates
+.B t
+is FE number a, that is stored on image P,
+so remote put/get operations will be required
+to communicate with that FE.
+.PP
+Note the key role played by
+.CW lcentr
+array in linking FE with CA.
+.bp
+.LP
+.mk
+.PS 2.9in
+.in 0in
+copy "centr1.pic"
+.PE
+.rt
+.PS 2.62in
+.in 3in
+copy "centr2.pic"
+.PE
+.PP
+Using
+.CW lcentr
+array it is possible for any image to know what
+finite elements it needs to exchange the data with,
+and to what images these belong:
+.DS B
+.CW
+CA on img 91 <-> FE 1266 on img 163 centr. in CA cs 2.55,  8.45,  4.95
+CA on img 57 <-> FE 3104 on img 34 centr. in CA cs 5.00E-2,  1.75,  4.95
+CA on img 36 <-> FE 435 on img 131 centr. in CA cs 3.85,  6.75,  2.45
+CA on img 1 <-> FE 2292 on img 2 centr. in CA cs 2*5.00E-2,  2.45
+CA on img 141 <-> FE 4000 on img 162 centr. in CA cs 5.15,  8.45,  7.45
+CA on img 1 <-> FE 2293 on img 2 centr. in CA cs 0.15,  5.00E-2,  2.45
+CA on img 1 <-> FE 2294 on img 2 centr. in CA cs 0.25,  5.00E-2,  2.45
+CA on img 1 <-> FE 2295 on img 2 centr. in CA cs 0.35,  5.00E-2,  2.45
+.DE
+This data is dumped by routine
+.CW cgca_pfem_cendmp
+of module
+.CW cgca_m3pfem .
+The finite element numbers are local to their images.
+It is possible to calculate the global FE number, but there
+is no need.
+A combination of the image number and the finite element number
+identify the FE uniquely.
+For example, the first line in the above output says that
+finite element 1266 stored on image 163 has centroid
+coordinates $ ( 2.55 , 8.45 , 4.95 ) $ in the CA coord. system.
+Material with these coordinates is processed with CA on image 91.
+.PP
+After
+.CW lcentr
+has been established, the second important
+mapping issue can be resolved.
+Cells which are outside of the FE model
+must not be processed.
+This means no fracture propagation can
+occur in such cells.
+However, since there is finite resolution
+in FE model and in CA, this problem cannot be posed precisely.
+Depending on the FE size and the CA cell size,
+a cell can be deemed to lie inside the FE model or out.
+The algorithm implemented in the library uses some
+characteristic distance measure, $ L sub c $.
+The criterion is this - if the distance between
+a cell and the centroid of 
+.I any
+FE in
+.CW lcentr
+is less than $ L sub c $, then this cell
+is considered to lie inside the FE model,
+otherwise it is considered to lie outside
+of the FE model.
+All cells in the fracture layer, which lie outside of the FE model,
+are given state
+.CW cgca_state_null ,
+defined in module
+.CW cgca_m1co .
+These cells are not processed at all in any of the fracture
+routines.
+Although these cells represent material in the 
+material layer, this material is simply ignored
+in all fracture calculations.
+.PP
+The algorithm is very simple.
+Just loop through all cells on an image.
+Routine
+.CW cgca_pfem_cellin
+checks whether a cell is in or out.
+.PP
+However, some optimisations are possible.
+For example, if some assumptions on smoothness
+of FE model boundary are made, then it can
+be assumed that if all 8 corner cells of some
+sub-image CA box are either in or out, then
+other cells inside the box don't have to be
+checked.
+These can be assumed to have the same state as
+the 8 corner cells.
+Routine
+.CW cgca_pfem_boxin
+does this check.
+.PP
+How to choose a sub-image box?
+A simple algorithm is to start from the whole
+box and do binary division along the longest
+dimension of the box.
+If a sub-box is neither in nor out, i.e.
+some of the 8 corner cells are in and some are out,
+then this sub-box is divided into 2 smaller boxes,
+and so on until the smallest box gets to be a single cell.
+Routine
+.CW cgca_pfem_partin
+implements this algorithm.
+.PP
+There also an even simple routine.
+If the whole of the CA array on an image is out,
+i.e. if
+.CW lcentr
+is empty on an image, then all cells are marked as out.
+Routine
+.CW cgca_pfem_wholein
+implements this algorithm.
+.PP
+The sub-box algorithm
+.CW cgca_pfem_partin
+needs to maintain a list of boxes to check.
+Module
+.CW cgca_m2lnklst
+has several routines to establish, maintain and delete
+a linked list.
+When a sub-box is partly in, and is split into two
+smaller boxes, the sub-box is removed from the list
+and the new smaller boxes are added to it.
+.NH 2
+.XN -N AAAL -- Programs
+.PP
+Current work on the interface is carried under \fCxx14\fP
+ParaFEM developer programs:
+.DS B
+.CW
+http://sourceforge.net/p/parafem/code/HEAD/tree/trunk/parafem/src/programs/dev/xx14/
+.DE
+There are 3 programs,
+.CW xx14.f90 ,
+.CW xx14noio.f90 and
+.CW xx14std.f90 .
+Program
+.CW xx14.f90
+and
+.CW xx14noio.f90
+include Cray extensions to the f2008 standard,
+namely
+.CW CO_SUM .
+.CW xx14noio.f90
+has no CA model IO.
+This program should be used for timing the optimising
+CASUP without being biased by IO timing issues.
+.CW xx14std.f90
+conform to f2008 strictly.
+Specifically it has no collectives,
+and is thus suitable for use with Intel compilers,
+which do not yet support collectives.
+.PP
+The programs simulate deformation in a 3D body.
+A part of this body is mapped to a microstructure
+array, established and processed via CASUP.
+Currently
+.CW xx14
+all programs build and run on Archer,
+and
+.CW xx14std
+builds and runs on Intel systems.
+.NH 2
+.XN -N AAAM -- Stress calculations
+.PP
+The stress coarray of derived type with
+allocatable array component is established on every image:
+.DS B
+.CW
+type type_stress
+  real( kind=cgca_pfem_iwp ), allocatable :: stress(:,:,:)
+end type type_stress
+type( type_stress ) :: cgca_pfem_stress[*]
+.DE
+Its allocatable array component is allocated by routine
+.CW cgca_pfem_salloc :
+.DS L
+.CW
+subroutine cgca_pfem_salloc( nels_pp, intp, comp )
+
+!  INPUTS
+!    nels_pp - number of elements on this image
+!    intp - number of integration points per element
+!    comp - number of stress tensor components
+
+integer, intent( in ) :: nels_pp, intp, comp
+.DE
+as
+.DS L
+.CW
+call cgca_pfem_salloc( nels_pp, nip, nst )
+.DE
+where
+.CW nels_pp
+is the number of elements per MPI process,
+.CW nip
+is the number of integration points per element and
+.CW nst
+is the number of stress tensor components,
+6 in 3D case.
+So any image can access stress tensors on any other image, e.g.:
+.DS B
+.CW
+img 96 FE 1 int. p. 8 stress  -3.12E-01 -3.31E-01 -1.40E-01 -5.59E-03
+  1.38E-02  4.41E-02
+.DE
+This is the stress tensor for integration point 8 of element 1 on image 96.
+In this example elements have 8 integration points.
+.PP
+.IP 3.
+Each load/time iteration FE passes to the CA level
+the new stress tensor, $ fat sigma $,
+There will be a provision for passing other
+variables to CA in future.
+.IP 4.
+Do a certain number of iterations of crack
+propagation algorithm.
+The number of iteration is set with the
+characteristic length scale.
+(At present the characterstic length scale
+is taken equal to the longitudinal wave speed,
+more precisely the length travelled by the
+longitudinal wave per unit of time.)
+.IP 5.
+The damage variable, $ D $, is calculated for each CA "box".
+The Young's modulus of all integration points within
+the box is scaled as
+.EQ
+E sup new = E sup original times D
+.EN
+Originally $ D = 1 $.
+When $ D = 0 $ material has no remaining load
+bearing capacity.
+$ D $ is the ratio of the number of the fractured
+cells to the cracteristic area.

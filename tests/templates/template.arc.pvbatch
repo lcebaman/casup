@@ -1,0 +1,26 @@
+#!/bin/bash --login
+#
+#$Id: template.arc.pvbatch 175 2015-12-15 12:31:30Z mexas $
+#
+#PBS -j oe
+#PBS -A e347
+#PBS -l select=100
+#PBS -l walltime=00:30:00
+#PBS -N pv
+
+# resolve all symlinks to absolute paths
+export PBS_O_WORKDIR=$(readlink -f $PBS_O_WORKDIR)
+
+# Switch to current working directory
+cd $PBS_O_WORKDIR
+
+module swap PrgEnv-cray PrgEnv-gnu
+module swap anaconda python-compute
+module load paraview/4.1.0-offscreen
+
+#--use-offscreen-rendering sample.xdmf.py 
+
+#aprun -n 1008 -N 24 -S 12 -d 1 -T pvbatch zsurf.py 
+#aprun -n 1008 -N 24 -S 12 -d 1 -T pvbatch z.py
+#aprun -n 480 -N 24 -S 12 -d 1 -T pvbatch z.py
+aprun -n 1200 -N 12 -S 6 -d 1 -T pvbatch z.py

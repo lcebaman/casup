@@ -1,0 +1,81 @@
+#*robodoc*b* tests/Makefile-tests-opencoarrays
+#  NAME
+#    Makefile-tests-opencoarrays
+#  SYNOPSIS
+
+#$Id: Makefile-opencoarrays 404 2017-05-15 15:14:21Z mexas $
+
+FC=		caf
+
+#  PURPOSE
+#    Build CGPACK tests with GCC/OpenCoarrays.
+#  AUTHOR
+#    Anton Shterenlikht
+#  COPYRIGHT
+#    See LICENSE
+#  NOTES
+#    Adjust the inlude and link paths as needed, to make
+#    sure all *mod files and libraries are available.
+#  SOURCE
+
+CGLIB=		cgpack
+LIBDIR=		$(HOME)/lib
+MODDIR=		$(HOME)/mod
+MODFILES=	$(MODDIR)/cgca.mod
+LIBNAME=	lib$(CGLIB).a
+LIB=		-L$(LIBDIR) -l$(CGLIB) \
+
+FFLAGS=		-Wall -fall-intrinsics -I. -I$(MODDIR) \
+		-g -fbacktrace -fcheck-array-temporaries -O2
+
+#		-L$(HOME)/soft/hdf5-1.10.0-patch1-install/lib \
+#		-lhdf5_fortran -lhdf5 -lhdf5hl_fortran -lhdf5_hl \
+#		-L$(HOME)/soft/netcdf-4.4.1.1-install/lib -lnetcdf \
+#		-L$(HOME)/soft/netcdf-fortran-4.4.4-install/lib -lnetcdff 
+
+MODSRC=		testaux.f90
+MODMOD=		$(MODSRC:.f90=.mod)
+MODSMOD=	$(MODSRC:.f90=.smod)
+MODOBJ=		$(MODSRC:.f90=.o)
+CLEAN+=		$(MODMOD) $(MODOBJ) $(MODSMOD)
+
+SRC= \
+testAAA.f90 testAAB.f90 testAAC.f90 testAAD.f90 testAAE.f90 \
+testAAF.f90 testAAG.f90 testAAH.f90 testAAI.f90 testAAJ.f90 \
+testAAK.f90 testAAL.f90 testAAM.f90 testAAN.f90 testAAO.f90 \
+testAAP.f90 testAAQ.f90 testAAR.f90 testAAS.f90 testAAT.f90 \
+testAAU.f90 testAAV.f90 testAAW.f90 testAAX.f90 testAAY.f90 \
+testAAZ.f90 \
+testABA.f90 testABB.f90 testABC.f90 testABD.f90 testABE.f90 \
+testABF.f90 testABG.f90 testABH.f90 testABI.f90 testABJ.f90 \
+            testABL.f90 testABM.f90 testABN.f90 testABO.f90 \
+testABP.f90 testABQ.f90 testABR.f90 testABS.f90 testABT.f90 \
+testABU.f90 testABV.f90 testABW.f90             testABY.f90 \
+testABZ.f90 \
+testACA.f90 testACB.f90 testACC.f90 testACD.f90 testACE.f90 \
+#testACF.f90 - netcdf, hdf5
+# testABK.f90 testABX.f90 - Cray only
+OBJ=		$(SRC:.f90=.o)
+EXE=		$(SRC:.f90=.x)
+CLEAN+=		$(OBJ) $(EXE)
+
+.SUFFIXES:
+.SUFFIXES:	.f90 .o .x
+
+all:		$(MODOBJ) $(MODMOD) $(OBJ) $(EXE)
+
+.f90.o:
+		$(FC) -c $< $(FFLAGS)
+
+.o.x:
+		$(FC) -o $@ $< $(MODOBJ) $(LIB)
+
+# Extra dependencies
+$(EXE):		$(LIBDIR)/$(LIBNAME) $(MODOBJ)
+$(OBJ):		$(MODMOD) $(MODSMOD) $(MODFILES)
+$(MODOBJ):	$(MODFILES)
+
+clean:
+		\rm $(CLEAN)
+
+#*roboend*

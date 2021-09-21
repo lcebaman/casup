@@ -1,0 +1,94 @@
+.\"$Id: cgca_rmmiddle.1 201 2016-01-29 11:05:47Z mexas $
+.NH 4 
+.XN -N AAAY -- Subroutine \fCcgca_rmmiddle\fP
+.PP
+This routine removes a node
+.I below
+the given node.
+.DS L
+.CW
+subroutine cgca_rmmiddle( node, stat )
+type( cgca_lnklst_node ), pointer, intent( in ) :: node
+integer( kind=idef), intent( out ) :: stat
+.DE
+.PP
+The memory occupied by the removed node is freed.
+The
+.CW node%next
+now points to where
+the node below
+.CW node%next
+was pointing.
+If the node below the given
+.CW node
+was
+.CW NULL ,
+i.e. if
+.CW node%next
+was not associated,
+then
+.CW stat
+is set to
+.CW 1 .
+Otherwise
+.CW stat
+is set to
+.CW 0 .
+.DS L
+.CW
+type( cgca_lnklst_node ), pointer :: tmp
+stat = 0
+tmp => node%next
+if ( associated( tmp ) ) then
+  node%next => tmp%next
+  deallocate( tmp )
+else
+  stat = 1
+end if
+.DE
+.PP
+The action of this routine can be schematically illustrated below.
+.PP
+First consider the case when
+.CW node%next
+is associated.
+If on input
+.CW node%value
+is
+.CW xx ,
+then the list before calling this routine is shown on the left.
+The right diagram shows the list after a call to this routine.
+.CW stat
+is set to
+.CW 0 .
+.mk
+.PS 1.5i
+.in 3.5i
+copy "lnklst5.pic"
+.PE
+.rt
+.PS 2.0i
+.in 1.0i
+copy "lnklst6.pic"
+.PE
+.PP
+Now consider the case when the list consists of a single node,
+i.e. if the
+.CW node
+is the head.
+On input the list can be shown schematically as follows.
+.PP
+.PS 0.9i
+copy "lnklst2.pic"
+.PE
+.PP
+On output, the
+.CW head%next
+will be not associated, so
+.CW stat
+will be set to
+.CW 1 .
+The linked list is no more.
+If the list is required again, it has to be re-initialised
+with
+.CW cgca_inithead .

@@ -1,0 +1,52 @@
+.\"$Id: mdebug.1 325 2016-08-24 09:39:24Z mexas $
+.NH 2
+Debugging messages
+.XS
+Debugging messages
+.XE
+.PP
+Debugging messages start with
+.CW DEBUG: .
+.PP
+Some routines provide a capability to print
+debugging output on request.
+For example, input argument
+.CW debug
+in routine 
+.DS L
+.CW
+subroutine cgca_clvgp( coarray, rt, t, scrit, sub, periodicbc, iter,  &
+                       heartbeat, debug )
+.DE
+is a logical variable.
+If
+.CW
+debug = .true.
+.R
+then some debugging information will be dumpted to stdout
+by that routine, and by all routines invoked by this routine,
+if any of them provide debugging capability.
+For example, routine
+.CW cgca_clvgp
+above calls routine
+.CW cgca_clvgsd
+which prints debug ouput when
+.CW
+debug = .true.
+.R
+is passed to cgca_clvgp:
+.DS L
+.CW
+DEBUG: cgca_clvgsd: img: 6: newstate=-3, calling cgca_gcf, gcupd=(34 9 1),
+marr=(9 9 27 9 27 27 9 27 27 9 9 27 9 34 34 34 34 34 9 34 34 34 34 34 34
+ 34 34 ).
+DEBUG: cgca_clvgsd: img: 2: newstate=-4, calling cgca_gcf, gcupd=(27 34 1),
+marr=(27 27 27 27 27 27 27 27 27 27 27 27 27 27 27 34 27 27 9 9 9 34 34 34
+ 34 34 34 ).
+.DE
+Note that the long lines of debugging output have been wrapped here.
+.PP
+The volume of debugging output can be very large.
+The user is advised to use caution when asking
+for debugging output, particularly on large core counts.
+In some cased debugging output can exceed several GB.

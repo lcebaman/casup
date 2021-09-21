@@ -1,0 +1,47 @@
+.\"$Id: build.1 525 2018-03-19 21:54:26Z mexas $
+.NH 1
+Building CASUP
+.XS
+Building CASUP
+.XE
+.PP
+To build CASUP do (adjust for your environment):
+.DS L
+.CW
+mkdir \[Do]HOME/casup
+mkdir \[Do]HOME/lib
+.DE
+.PP
+On some platforms, e.g. when using the Intel Fortran
+compiler, separate module files, extension
+.CW .mod ,
+will be created.
+On such platforms add a directory to store the module files, e.g.:
+.DS L
+.CW
+mkdir \[Do]HOME/mod
+.DE
+.PP
+Then put the source code somewhere, e.g.:
+.DS L
+.CW
+cd \[Do]HOME/casup
+svn co https://svn.code.sf.net/p/cgpack/code/ .
+.DE
+.PP
+And build using one of the provided
+.CW Makefile s,
+adjusting for your environment, e.g.:
+.DS L
+.CW 
+cd head
+make -f Makefile-mpiifort
+make -f Makefile-mpiifort install
+.DE
+This will build the library under
+.CW \[Do]HOME/casup
+and install it under
+.CW \[Do]HOME/lib/libcasup.a .
+If separate module files were built too, these
+will be installed under
+.CW \[Do]HOME/mod .

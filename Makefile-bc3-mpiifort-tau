@@ -1,0 +1,143 @@
+#*robodoc*b* CGPACK/Makefile-bc3-mpiifort-tau
+#  NAME
+#    Makefile-bc3-mpiifort-tau
+#  SYNOPSIS
+
+#$Id: Makefile-bc3-mpiifort-tau 382 2017-03-22 11:41:51Z mexas $
+
+FC=		tau_f90.sh
+
+#  PURPOSE
+#    Build/install CGPACK instrumented for profiling/tracing with TAU
+#    on the University of Bristol BlueCrystal
+#    computer with Intel Fortran compiler (mpiifort).
+#  AUTHOR
+#    Anton Shterenlikht
+#  COPYRIGHT
+#    See LICENSE
+#  NOTES
+#    This makefile is to build CGPACK for use with ParaFEM.
+#    According to Intel, when mixing MPI with coarrays, the
+#    easiest approach is to build the coarray library with
+#    "-coarray=single", and let the MPI parts of the program
+#    set up the MPI environment. See also:
+#    https://software.intel.com/en-us/forums/topic/559446
+#  SOURCE
+
+#TAU_MAKEFILE=	$(HOME)/tau-2.25.1.1/x86_64/lib/Makefile.tau-icpc-papi-mpi-pdt
+TAU_MAKEFILE=	$(HOME)/tau-2.25.2-intel/x86_64/lib/Makefile.tau-icpc-papi-mpi-pdt
+include $(TAU_MAKEFILE)
+
+FFLAGS=		-c -qopt-report -assume realloc_lhs \
+		-O2 -debug full -g -traceback -free -warn \
+		-coarray=distributed -coarray-config-file=xx14.conf \
+		$(TAU_INCLUDE) $(TAU_MPI_INCLUDE)
+#-std08 -warn stderrors -fast
+
+CGPACK=		cgpack
+MYLIB=		lib$(CGPACK).a
+LIBDIR=		$(HOME)/lib
+MODDIR=		$(HOME)/mod
+
+# level 1
+
+L1_SRC=		cgca_m1co.f90
+L1_MOD=		$(L1_SRC:.f90=.mod)
+L1_OBJ=		$(L1_SRC:.f90=.o)
+
+# level 2 modules and submodules
+
+L2_SRC_MOD=	cgca_m2alloc.f90 cgca_m2gb.f90 cgca_m2geom.f90 \
+		cgca_m2glm.f90 cgca_m2hx.f90 cgca_m2lnklst.f90 \
+		cgca_m2out.f90 cgca_m2pck.f90 \
+		cgca_m2phys.f90 cgca_m2red.f90 cgca_m2rnd.f90 \
+		cgca_m2rot.f90 cgca_m2stat.f90 cgca_m2mpiio.f90
+L2_SRC_SUBMOD=	m2out_sm2_mpi.f90 # m2out_sm1.f90 - only for Cray
+L2_SRC=		$(L2_SRC_MOD) $(L2_SRC_SUBMOD)
+L2_OBJ=		$(L2_SRC:.f90=.o)
+L2_MOD=		$(L2_SRC_MOD:.f90=.mod)
+L2_SUBMOD=	cgca_m2out@m2out_sm2_mpi.smod
+		# cgca_m2out@m2out_sm1.smod - only for Cray
+
+# level 3 modules and submodules
+
+L3_SRC_MOD=	cgca_m3clvg.f90 cgca_m3gbf.f90 cgca_m3nucl.f90 \
+		cgca_m3pfem.f90 cgca_m3sld.f90
+L3_SRC_SUBMOD=	m3clvg_sm1.f90 m3clvg_sm2.f90 m3sld_sm1.f90
+# don't build m3clvg_sm3.f90 with ifort 16.0.0 - uses collectives
+# don't build m3pfem_sm1.f90 with ifort 16.0.0 - uses collectives
+L3_SRC=		$(L3_SRC_MOD) $(L3_SRC_SUBMOD)
+L3_OBJ=		$(L3_SRC:.f90=.o)
+L3_MOD=		$(L3_SRC_MOD:.f90=.mod)
+L3_SUBMOD=	cgca_m3clvg@m3clvg_sm1.smod \
+		cgca_m3clvg@m3clvg_sm2.smod \
+		cgca_m3sld@m3sld_sm1.smod
+
+# level 4
+
+L4_SRC=		cgca_m4fr.f90
+L4_MOD=		$(L4_SRC:.f90=.mod)
+L4_OBJ=		$(L4_SRC:.f90=.o)
+
+# top level
+
+LTOP_SRC=	cgca.f90
+LTOP_MOD=	$(LTOP_SRC:.f90=.mod)
+LTOP_OBJ=	$(LTOP_SRC:.f90=.o)
+
+ALL_MOD=	$(L1_MOD) $(L2_MOD) $(L3_MOD) $(L4_MOD) $(LTOP_MOD)
+ALL_SUBMOD=	$(L2_SUBMOD) $(L3_SUBMOD)
+ALL_OBJ=	$(L1_OBJ) $(L2_OBJ) $(L3_OBJ) $(L4_OBJ) $(LTOP_OBJ)
+
+ALL_CLEAN=	*.mod *.smod *.o *.optrpt $(MYLIB)
+
+.SUFFIXES:
+.SUFFIXES: .f90 .mod .o
+
+all: $(MYLIB)
+
+.f90.mod:
+	$(FC) $(FFLAGS) $<
+
+.f90.o:
+	$(FC) $(FFLAGS) $<
+
+# module dependencies
+
+$(L2_MOD) $(L2_OBJ): $(L1_MOD)
+$(L3_MOD) $(L3_OBJ): $(L2_MOD) $(L2_SUBMOD)
+$(L4_MOD) $(L4_OBJ): $(L3_MOD) $(L3_SUBMOD)
+$(LTOP_MOD) $(LTOP_OBJ): $(L4_MOD)
+$(MYLIB): $(MOD_LTOP) $(OBJ_LTOP)
+
+# Submodule dependencies
+# level 2
+m2out_sm1.o m2out_sm2_mpi.o: cgca_m2out.mod cgca_m2out.o 
+
+# level 3
+m3clvg_sm1.o m3clvg_sm2.o: cgca_m3clvg.mod cgca_m3clvg.o
+m3sld_sm1.o: cgca_m3sld.mod cgca_m3sld.o
+
+$(MYLIB): $(ALL_OBJ)
+	@if [ -e $(MYLIB) ]; then \
+		rm $(MYLIB); \
+	fi
+	ar -r $(MYLIB) $(ALL_OBJ)
+
+install: $(MYLIB) $(ALL_MOD) $(ALL_SUBMOD)
+	@if [ -e $(LIBDIR)/$(MYLIB) ]; then \
+		echo $(LIBDIR)/$(MYLIB) already exists; \
+		echo run \"make deinstall\" first; \
+		exit 1; \
+	fi
+	cp $(MYLIB) $(LIBDIR)
+	cp $(ALL_MOD) $(ALL_SUBMOD) $(MODDIR)
+
+deinstall:
+	cd $(LIBDIR) && rm $(MYLIB)
+	cd $(MODDIR) && rm $(ALL_MOD) $(ALL_SUBMOD)
+
+clean:
+	rm $(ALL_CLEAN)
+
+#*roboend*
